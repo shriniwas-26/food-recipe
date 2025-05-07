@@ -1,12 +1,22 @@
 import {StatusCodes} from 'http-status-codes';
 import recipeModel from '../Models/RecipeModel.js';
 
-export function getRecipes(request, response){
-
+export async function getRecipes(request, response){
+    try {
+        const recipes = await recipeModel.find();
+        response.status(StatusCodes.OK).send(recipes);
+    } catch (error) {
+        response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Something went wrong"});
+    }
 }
 
-export function getRecipe(request, response){
-
+export async function getRecipe(request, response){
+    try {
+        const recipe = await recipeModel.findById(request.params.id);
+        response.status(StatusCodes.OK).send(recipe);
+    } catch (error) {
+        response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Something went wrong"});
+    }
 }
 
 export async function addRecipe(request, response){
