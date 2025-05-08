@@ -4,13 +4,14 @@ import viteLogo from '/vite.svg'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 import './App.css'
+import Home from '../Components/Home'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <button className='btn btn-primary'>Submit</button>
+      <Home/>
     </>
   )
 }
