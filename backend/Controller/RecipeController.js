@@ -35,10 +35,28 @@ export async function addRecipe(request, response){
     }
 }
 
-export function editRecipe(request, response){
-
+export async function editRecipe(request, response){
+    try {
+        const {title, ingredients, instructions, time } = request.body;
+        const id = request.params.id;
+        const recipe = await recipeModel.findById(id);
+        if(recipe){
+            await recipeModel.findByIdAndUpdate(id, request.body, {new: true});
+            response.status(StatusCodes.OK).send({message: "recipe updated successfully"});
+        }
+    } catch (error) {
+        response.status(StatusCodes.NOT_FOUND).send({message: "Something went wrong recipe not found"});
+    }
 }
 
-export function deleteRecipe(request, response){
-
+export async function deleteRecipe(request, response){
+    try {
+        const id = request.params.id;
+        const recipe = await recipeModel.findByIdAndDelete(id);
+        if(recipe){
+            response.status(StatusCodes.OK).send({message: "recipe deleted successfully"});
+        }
+    } catch (error) {
+        response.status(StatusCodes.NOT_FOUND).send({message: "recipe not found in database..."});
+    }
 }
