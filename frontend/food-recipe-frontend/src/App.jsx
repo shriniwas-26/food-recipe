@@ -10,14 +10,14 @@ import NotFound from "./components/NotFound";
 import { NavigationBar } from "./components/NavigationBar";  // Named import
 import { ToastContainer } from "react-toastify";
 import { RenderNavigationBar } from "./components/RenderNavigationBar";
-
+import AboutUs from "../src/components/AboutUs"; 
 
 function App() {
   return (
     <BrowserRouter>
       <RenderNavigationBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AboutUs />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="*" element={<NotFound />} />
