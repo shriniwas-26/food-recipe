@@ -1,21 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import 'bootstrap/dist/css/bootstrap.min.css'
+// src/App.jsx
 
-import './App.css'
-import Home from '../src/components/Home'
-import AddFoodRecipe from './pages/AddFoodRecipe'
+import React from "react";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import LoginPage from "./components/LoginPage";
+import SignupPage from "./components/SignupPage";
+import NotFound from "./components/NotFound";
+import { NavigationBar } from "./components/NavigationBar";  // Named import
+import { ToastContainer } from "react-toastify";
+import { RenderNavigationBar } from "./components/RenderNavigationBar";
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <Home/>
-      {/* <AddFoodRecipe/> */}
-    </>
-  )
+    <BrowserRouter>
+      <RenderNavigationBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <ToastContainer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

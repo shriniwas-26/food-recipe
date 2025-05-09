@@ -8,3 +8,8 @@
 .bg-img{
     background-image: url("../assets/back.jpg");
 }
+.b-none{
+    border: none;
+    border-color: #C5E1A5;
+    outline: none;
+}
