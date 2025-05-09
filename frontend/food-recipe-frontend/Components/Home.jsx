@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import food from "../src/assets/food.png";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+import RecipeItems from "./RecipeItems";
+import '../components/recipeItems.css'
 const Home = () => {
+    
+
   return (
     <div className="min-vh-100">
       <Container className="min-vh-100 d-flex flex-column justify-content-center">
@@ -15,7 +19,7 @@ const Home = () => {
               Tasty recipes made simple.
               Find easy, delicious, and reliable recipes for every occasion. From quick dinners to sweet treats, cook with confidence and enjoy every bite!
               </p>
-              <Button>Share your Recipe</Button>
+              <button className="bg-light-green text-black rounded-3 outline-none border-none">Share your Recipe</button>
             </div>
           </Col>
           <Col sm={12} lg={6}>
@@ -24,6 +28,9 @@ const Home = () => {
             </div>
           </Col>
         </Row>
+      </Container>
+      <Container>
+        <RecipeItems />
       </Container>
     </div>
   );
