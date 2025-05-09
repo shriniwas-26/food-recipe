@@ -4,3 +4,9 @@
 .color-white{
     color: #FAFAFA;
 }
+
+.b-none{
+    border: none;
+    border-color: #C5E1A5;
+    outline: none;
+}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getAllRecipesFromApi } from "../Services/recipeService";
-import food from '../src/assets/food.png'
+import { getAllRecipesFromApi } from "../services/recipeService";
 import { RiTimerFill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
 import '../components/recipeItems.css';
+import food from "../assets/food.png";
 
 
 const RecipeItems = () => {

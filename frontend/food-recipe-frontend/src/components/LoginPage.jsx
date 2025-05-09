@@ -1,67 +1,91 @@
-import React, { useState } from "react";
-import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
+import { Alert, Button, Col, Container, Row } from "react-bootstrap";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { loginSchema } from "../validation-schemas/LoginSchema";
+import "../assets/styles/signupstyle.css"; // reuse same styles
 
-function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+export function UserLogin() {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email === "" || password === "") {
-      setError("Please fill in all fields.");
-      toast.error("Please fill in all fields.");
-    } else {
-      setError("");
-      console.log("Logging in:", { email, password });
-      toast.success("Login successful!");
-      navigate("/dashboard");
-    }
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const handleSubmit = (values) => {
+    console.log("Login form submitted:", values);
+    toast.success("Login successful!");
+    navigate("/dashboard"); // redirect to dashboard or homepage
+  };
+
+  const goToSignup = () => {
+    navigate("/signup");
   };
 
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
-        <Col md={6} lg={4}>
-          <h2 className="text-center mb-4">Login</h2>
+        <Col md={6} lg={5}>
+          <Alert variant="success">
+            <h4 className="text-center">Login to Food Recipe App</h4>
+          </Alert>
+          <p>
+            Don’t have an account?{" "}
+            <Button variant="primary" onClick={goToSignup}>
+              Sign Up Now
+            </Button>
+          </p>
 
-          {error && <Alert variant="danger">{error}</Alert>}
+          <Formik
+            initialValues={initialValues}
+            validationSchema={loginSchema}
+            onSubmit={handleSubmit}
+          >
+            {(formik) => {
+              const { isValid, dirty } = formik;
+              return (
+                <Form>
+                  <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="email" component="span" className="error" />
+                  </div>
 
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formBasicEmail" className="mb-3">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
+                  <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Enter password"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="password" component="span" className="error" />
+                  </div>
 
-            <Form.Group controlId="formBasicPassword" className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <div className="d-flex justify-content-center">
-              <Button variant="primary" type="submit" className="w-50">
-                Login
-              </Button>
-            </div>
-
-          </Form>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      type="submit"
+                      variant="success"
+                      className="w-50"
+                      // disabled={!(dirty && isValid)}
+                    >
+                      Login
+                    </Button>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
         </Col>
       </Row>
     </Container>
   );
 }
 
-export default LoginPage;
+export default UserLogin;

@@ -1,87 +1,113 @@
-import React, { useState } from "react";
-import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { signUpSchema } from "../validation-schemas/SignUpSchema";
+import '../assets/styles/signupstyle.css';
 
-function SignupPage() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+export function SignupPage() {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (username === "" || email === "" || password === "" || confirmPassword === "") {
-      setError("Please fill in all fields.");
-      toast.error("Please fill in all fields.");
-    } else if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      toast.error("Passwords do not match.");
-    } else {
-      setError("");
-      toast.success("Signup successful!");
-      // Redirect to login or dashboard after signup
-      navigate("/login");
-    }
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
+
+  const handleSubmit = (values) => {
+    console.log("Signup form submitted:", values);
+    toast.success("Signup successful!");
+    navigate("/login");
+  };
+
+  const redirectToLogin = () => {
+    navigate("/login");
+  }
+
+  const redirectToHome = () => {
+    toast.success("Signup successful!");
+    navigate("/");
+  }
 
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
-        <Col md={6} lg={4}>
-          <h2 className="text-center mb-4">Signup</h2>
+        <Col md={6} lg={5}>
+          <Alert variant="success">
+            <h4 className="text-center">Sign Up to use food recipe app</h4>
+          </Alert>
+          <p>Already have an account? <Button variant="primary" onClick={redirectToLogin}>Login Now</Button></p>
+          <Container className="mt-4"></Container>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={signUpSchema}
+            onSubmit={handleSubmit}
+          >
+            {(formik) => {
+              const { isValid, dirty } = formik;
+              return (
+                <Form>
+                  <div className="mb-3">
+                    <label className="form-label">name</label>
+                    <Field
+                      type="text"
+                      name="username"
+                      placeholder="Enter username"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="username" component="span" className="error" />
+                  </div>
 
-          {error && <Alert variant="danger">{error}</Alert>}
+                  <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="email" component="span" className="error" />
+                  </div>
 
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formBasicUsername" className="mb-3">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Form.Group>
+                  <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Enter password"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="password" component="span" className="error" />
+                  </div>
 
-            <Form.Group controlId="formBasicEmail" className="mb-3">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
+                  <div className="mb-3">
+                    <label className="form-label">Confirm Password</label>
+                    <Field
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm password"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="confirmPassword" component="span" className="error" />
+                  </div>
 
-            <Form.Group controlId="formBasicPassword" className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicConfirmPassword" className="mb-3">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Confirm password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <div className="d-flex justify-content-center">
-              <Button variant="primary" type="submit" className="w-50">
-                Signup
-              </Button>
-            </div>
-          </Form>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      onClick={redirectToHome}
+                      className="w-50"
+                    // disabled={!(dirty && isValid)}
+                    >
+                      Signup
+                    </Button>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
         </Col>
       </Row>
     </Container>

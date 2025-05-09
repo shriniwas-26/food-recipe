@@ -1,6 +1,7 @@
 // src/App.jsx
 
 import React from "react";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import LoginPage from "./components/LoginPage";
@@ -9,6 +10,7 @@ import NotFound from "./components/NotFound";
 import { NavigationBar } from "./components/NavigationBar";  // Named import
 import { ToastContainer } from "react-toastify";
 import { RenderNavigationBar } from "./components/RenderNavigationBar";
+
 
 function App() {
   return (
@@ -20,7 +22,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer />
     </BrowserRouter>
   );
 }
