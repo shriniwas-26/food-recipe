@@ -4,6 +4,7 @@ import food from '../assets/food.png'
 import { RiTimerFill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
 import './recipeItems.css';
+import { url } from "../services/recipeService.js";
 
 
 const RecipeItems = () => {
@@ -24,7 +25,7 @@ const RecipeItems = () => {
       {allRecipes?.map((item, index) => {
         return(
         <div key={index} className="card m-3 align-items-center" style={{ width: "15rem" }}>
-          <img src={food} className="card-img-top" style={{ height: "150px", width: "150px" }} alt="..." />
+          <img src={`${url}/images/${item.coverImage}`} className="card-img-top" style={{ height: "160px"}} alt="..." />
           <div className="card-body w-100 d-flex flex-column justify-content-between bg-light-green">
             <h5 className="card-title fs-5 text-center">{ item.title }</h5>
             <div className="d-flex justify-content-between m-3">

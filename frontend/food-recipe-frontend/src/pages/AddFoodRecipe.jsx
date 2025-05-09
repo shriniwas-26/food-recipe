@@ -1,27 +1,49 @@
 import React from "react";
+import { useState } from "react";
 import "../components/recipeItems.css";
+import axios from "axios";
+import { url } from "../services/recipeService";
 
 const AddFoodRecipe = () => {
-    const [recipeData, setRecipedata] = useState({});
+  const [recipeData, setRecipedata] = useState({});
 
-    const handleRecipeOnChange = (e)=>{
-        const value = (e.target.name === "ingredients") ? e.target.value.split(",") : e.target.value;
-        setRecipedata()
-    }
+  const handleRecipeOnChange = (e) => {
+    // console.log(e.target.files[0])
+    const value =
+      e.target.name === "ingredients"
+        ? e.target.value.split(",")
+        : e.target.name === "time"
+        ? String(e.target.value)
+        : (e.target.name === "coverImage")
+        ? e.target.files[0]
+        : e.target.value;
+    setRecipedata((pre) => ({
+      ...pre,
+      [e.target.name]: value,
+    }));
+  };
 
-    const handleRecipeOnSubmit = (e)=>{
-        e.preventDefault
-    }
+  const handleRecipeOnSubmit = async (e) => {
+    e.preventDefault();
+    console.log(recipeData);
+    await axios.post(url + "/recipe", recipeData, {
+      headers: {
+        'Content-Type' : 'multipart/form-data'
+      }
+    }).then(() => {
+      alert("recipe added successfully...");
+    });
+  };
   return (
-    <div className="container mt-5 d-flex justify-content-center">
-      <div className="w-50 shadow p-4 bg-white rounded">
+    <div className="container row ms-auto me-auto mt-5 mb-5 d-flex justify-content-center">
+      <div className="shadow p-4 bg-white rounded col-11 col-md-8">
         <div className="text-center mb-4">
           <h1 className="fw-bold">Add Your Recipe</h1>
           <p className="text-muted">
             Share your delicious creations with the world!
           </p>
         </div>
-        <form>
+        <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
           <div className="mb-3">
             <label htmlFor="title" className="form-label">
               Recipe Title
@@ -33,6 +55,7 @@ const AddFoodRecipe = () => {
               className="form-control"
               placeholder="Enter recipe title"
               onChange={handleRecipeOnChange}
+              required
             />
           </div>
           <div className="mb-3">
@@ -46,6 +69,7 @@ const AddFoodRecipe = () => {
               rows="3"
               placeholder="List ingredients"
               onChange={handleRecipeOnChange}
+              required
             ></textarea>
           </div>
           <div className="mb-3">
@@ -59,13 +83,8 @@ const AddFoodRecipe = () => {
               rows="4"
               placeholder="Enter cooking instructions"
               onChange={handleRecipeOnChange}
+              required
             ></textarea>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="file" className="form-label">
-              Upload Image
-            </label>
-            <input type="file" id="file" name="coverImage" className="form-control" onChange={handleRecipeOnChange}/>
           </div>
           <div className="mb-3">
             <label htmlFor="timer" className="form-label">
@@ -77,9 +96,28 @@ const AddFoodRecipe = () => {
               name="time"
               className="form-control"
               placeholder="Enter cooking time"
+              onChange={handleRecipeOnChange}
+              required
             />
           </div>
-          <button type="submit" className="bg-light-green text-black w-100">
+          <div className="mb-3">
+            <label htmlFor="file" className="form-label">
+              Upload Image
+            </label>
+            <input
+              type="file"
+              id="file"
+              name="coverImage"
+              className="form-control"
+              onChange={handleRecipeOnChange}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-light-green text-black rounded-3 outline-none p-2 b-none w-100"
+          >
             Submit Recipe
           </button>
         </form>

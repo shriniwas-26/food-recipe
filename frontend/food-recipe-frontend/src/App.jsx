@@ -10,6 +10,7 @@ import NotFound from "./components/NotFound";
 import { NavigationBar } from "./components/NavigationBar";  // Named import
 import { ToastContainer } from "react-toastify";
 import { RenderNavigationBar } from "./components/RenderNavigationBar";
+import AddFoodRecipe from './pages/AddFoodRecipe'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/addRecipe" element={ <AddFoodRecipe/> } />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer />
