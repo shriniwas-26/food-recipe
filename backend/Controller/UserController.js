@@ -18,7 +18,7 @@ export async function userSignUp(request, response){
                     name, email, password: encryptPwd
                 });
                 const token = jwt.sign({email, id: newUser._id}, process.env.SECRET_KEY);
-                response.status(StatusCodes.OK).send({newUser, token});
+                response.status(StatusCodes.OK).send({user:newUser, token});
             }
         }
     } catch (error) {

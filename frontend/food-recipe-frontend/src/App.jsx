@@ -11,6 +11,7 @@ import { NavigationBar } from "./components/NavigationBar";  // Named import
 import { ToastContainer } from "react-toastify";
 import { RenderNavigationBar } from "./components/RenderNavigationBar";
 import AddFoodRecipe from './pages/AddFoodRecipe'
+import RecipeInfo from "./pages/RecipeInfo";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <RenderNavigationBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/addRecipe" element={ <AddFoodRecipe/> } />

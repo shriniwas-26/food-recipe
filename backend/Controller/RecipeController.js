@@ -34,7 +34,7 @@ export async function getRecipe(request, response){
 
 export async function addRecipe(request, response){
     const data = request.body;
-    // console.log(request.user);
+    console.log(request.user);
     if(!data.title || !data.ingredients || !data.instructions){
         response.status(StatusCodes.BAD_REQUEST).send({message: "Required fields cant be empty"});
     }else{
