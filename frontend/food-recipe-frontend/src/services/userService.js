@@ -6,5 +6,13 @@ export function signUp(formData){
 }
 
 export function login(formData){
-    return axios.post(url+ "/user/login",formData,);
+    return axios.post(url+ "/user/login",formData);
+}
+
+export function storeToken(token){
+    localStorage.setItem("user-token",token);
+}
+
+export function removeToken(){
+    localStorage.removeItem("user-token");
 }
