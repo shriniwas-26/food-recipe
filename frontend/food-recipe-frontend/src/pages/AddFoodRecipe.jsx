@@ -28,11 +28,14 @@ const AddFoodRecipe = () => {
     console.log(recipeData);
     await axios.post(url + "/recipe", recipeData, {
       headers: {
-        'Content-Type' : 'multipart/form-data'
+        'Content-Type' : 'multipart/form-data',
+        'Authorization': localStorage.getItem("token")
       }
     }).then(() => {
       alert("recipe added successfully...");
-    });
+    }).catch((err)=>{
+      console.log("error recipe : "+err);
+    })
   };
   return (
     <div className="container row ms-auto me-auto mt-5 mb-5 d-flex justify-content-center">
