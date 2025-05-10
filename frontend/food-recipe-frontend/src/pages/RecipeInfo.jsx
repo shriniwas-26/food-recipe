@@ -38,7 +38,7 @@ const RecipeInfo = () => {
         </Col>
         <Col md={6}>
           <h3>Instructions</h3>
-          <p>{recipe.instructions}</p>
+          <p style={{ textAlign: "justify"}}>{recipe.instructions}</p>
         </Col>
       </Row>
 

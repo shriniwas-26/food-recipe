@@ -27,11 +27,11 @@ const RecipeItems = () => {
       {allRecipes?.map((item, index) => (
         <div key={index} className="card m-3 align-items-center" style={{ width: "15rem" }}>
           {/* You don't need to import url, use the base URL directly */}
-          <img src={`http://localhost:8080/images/${item.coverImage}`} className="card-img-top" style={{ height: "160px" }} alt="..." />
+          <img src={`http://localhost:5000/images/${item.coverImage}`} className="card-img-top" style={{ height: "160px" }} alt="..." />
           <div className="card-body w-100 d-flex flex-column justify-content-between bg-light-green">
             <h5 className="card-title fs-5 text-center">{item.title}</h5>
             <div className="d-flex justify-content-between m-3">
-              <div><RiTimerFill /></div>
+              <div><RiTimerFill /> <span>{item.time}</span></div>
               <div><FaHeart /></div>
             </div>
           </div>

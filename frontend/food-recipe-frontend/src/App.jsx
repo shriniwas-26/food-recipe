@@ -17,6 +17,7 @@ import NotFound from "./components/NotFound";
 import MyRecipes from "./components/MyRecipes";
 import Favourite from "./components/Favourite";
 import AddFoodRecipe from "./pages/AddFoodRecipe";
+import RecipeInfo from "./pages/RecipeInfo";
 
 // Spinner Wrapper Component
 function PageLoaderWrapper({ children }) {
@@ -52,6 +53,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="recipeDetails/:id" element={<RecipeInfo />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/myrecipes" element={<MyRecipes />} />

@@ -39,7 +39,7 @@ function SignupPage() {
     return (
         <Container className="mt-5">
             <Alert variant="success">
-                <h4>Sign Up to use expense tracker app</h4>
+                <h4>Sign Up</h4>
             </Alert>
             <p>Already have an account?
                 <Button variant="primary" onClick={redirectToLogin}>Login Now</Button>
