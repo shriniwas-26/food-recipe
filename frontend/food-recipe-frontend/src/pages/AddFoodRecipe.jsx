@@ -1,20 +1,18 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
-import { url } from "../services/recipeService";
+import { url } from "../services/recipeService"; // Make sure this path is correct
 
 const AddFoodRecipe = () => {
   const [recipeData, setRecipedata] = useState({});
 
   const handleRecipeOnChange = (e) => {
-    // console.log(e.target.files[0])
     const value =
       e.target.name === "ingredients"
         ? e.target.value.split(",")
         : e.target.name === "time"
         ? String(e.target.value)
-        : (e.target.name === "coverImage")
+        : e.target.name === "coverImage"
         ? e.target.files[0]
         : e.target.value;
     setRecipedata((pre) => ({
@@ -37,14 +35,13 @@ const AddFoodRecipe = () => {
       alert("Invakid token");
     })
   };
+
   return (
     <div className="container row ms-auto me-auto mt-5 mb-5 d-flex justify-content-center">
       <div className="shadow p-4 bg-white rounded col-11 col-md-8">
         <div className="text-center mb-4">
           <h1 className="fw-bold">Add Your Recipe</h1>
-          <p className="text-muted">
-            Share your delicious creations with the world!
-          </p>
+          <p className="text-muted">Share your delicious creations with the world!</p>
         </div>
         <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
           <div className="mb-3">
