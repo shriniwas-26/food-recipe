@@ -1,5 +1,5 @@
 import axios from 'axios'
-const url = "http://localhost:5000"
+export const url = "http://localhost:5000"
 export async function getAllRecipesFromApi(){
     try {
         

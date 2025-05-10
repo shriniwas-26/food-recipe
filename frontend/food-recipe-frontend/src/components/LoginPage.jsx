@@ -1,112 +1,94 @@
-import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Alert, Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { loginSchema } from "../validation-schemas/LoginSchema";
-import "../assets/styles/signupstyle.css"; // reuse same styles
+import { useNavigate } from "react-router-dom";
+import { login } from "../services/UserService";
 
-// Dummy login function to simulate an API call
-const login = async (formData) => {
-  console.log("Simulating login with data:", formData);
-  return new Promise((resolve) =>
-    setTimeout(() => resolve({ status: 200, data: { token: "dummy-token" } }), 1000)
-  );
-};
+function LoginPage() {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [loading, setLoading] = useState(false); // For handling loading state
 
-// Dummy function to store token
-const storeToken = (token) => {
-  console.log("Token stored:", token);
-  localStorage.setItem("authToken", token);
-};
+    const handleChange = (event) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+    };
 
-export function UserLogin() {
-  const navigate = useNavigate();
+    const validateForm = () => {
+        if (!formData.email || !formData.password) {
+            toast.error('Please fill out all fields.');
+            return false;
+        }
+        return true;
+    };
 
-  const initialValues = {
-    email: "",
-    password: "",
-  };
+    const handleSubmit = async (event) => {
+        try {
+            event.preventDefault();
+            
+            if (!validateForm()) return; // Validate form before submitting
 
-  const handleSubmit = async (formData) => {
-    try {
-      const response = await login(formData);
-      console.log("Login response:", response);
+            setLoading(true); // Set loading to true when API call is in progress
+            const response = await login(formData);
 
-      if (response.status === 200) {
-        storeToken(response.data.token);
-        toast.success("Login Successful!");
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.log("Login error:", error);
-      toast.error("Something went wrong. Please try again.");
-    }
-  };
+            if (response.status === 200) {
+                // storeToken(response.data.token);
+                // navigate("/dashboard");
+                localStorage.setItem("token",response.data.token);
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+            setLoading(false); // Stop loading after the request
+            if (error.response?.status === 400) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error('Something went wrong...!');
+            }
+        }
+    };
 
-  const goToSignup = () => {
-    navigate("/signup");
-  };
+    const openSignUpForm = () => {
+        navigate("/signup"); // Fixed to navigate to signup page
+    };
 
-  return (
-    <Container className="mt-5">
-      <Row className="justify-content-center">
-        <Col md={6} lg={5}>
-          <Alert variant="success">
-            <h4 className="text-center">Login to Food Recipe App</h4>
-          </Alert>
-          <p>
-            Don’t have an account?{" "}
-            <Button variant="primary" onClick={goToSignup}>
-              Sign Up Now
-            </Button>
-          </p>
-
-          <Formik
-            initialValues={initialValues}
-            validationSchema={loginSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ isValid, dirty }) => (
-              <Form>
-                <div className="mb-3">
-                  <label className="form-label">Email</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    className="form-control"
-                  />
-                  <ErrorMessage name="email" component="span" className="error" />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Password</label>
-                  <Field
-                    type="password"
-                    name="password"
-                    placeholder="Enter password"
-                    className="form-control"
-                  />
-                  <ErrorMessage name="password" component="span" className="error" />
-                </div>
-
-                <div className="d-flex justify-content-center">
-                  <Button
-                    type="submit"
-                    variant="success"
-                    className="w-50"
-                    disabled={!(dirty && isValid)}
-                  >
-                    Login
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </Col>
-      </Row>
-    </Container>
-  );
+    return (
+        <Container className="mt-5">
+            <Row>
+                <Col lg={4}>
+                    <Alert variant="primary" className="mb-3">Login</Alert>
+                    <p className="mb-3">
+                        Need an account? 
+                        <Button variant="success" onClick={openSignUpForm}>Create an account</Button>
+                    </p>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Enter Email" 
+                                name="email" 
+                                value={formData.email}
+                                onChange={handleChange} 
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control 
+                                type="password" 
+                                placeholder="Enter Password" 
+                                name="password" 
+                                value={formData.password}
+                                onChange={handleChange} 
+                            />
+                        </Form.Group>
+                        <Button variant="success" type="submit" disabled={loading}>
+                            {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Login'}
+                        </Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+    );
 }
 
-export default UserLogin;
+export default LoginPage
