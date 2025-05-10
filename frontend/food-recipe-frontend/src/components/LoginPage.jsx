@@ -35,9 +35,7 @@ export function UserLogin() {
       if (response.status === 200) {
         storeToken(response.data.token);
         toast.success("Login Successful!");
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1500);
+        navigate("/dashboard");
       }
     } catch (error) {
       console.log("Login error:", error);

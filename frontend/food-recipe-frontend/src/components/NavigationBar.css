@@ -1,0 +1,21 @@
+/* Hover effect for the Logout button */
+.logout-btn {
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.logout-btn:hover {
+  background-color: white; /* Change background color on hover */
+  color: red; /* Change text color */
+  border-color: red; /* Match border color with background */
+}
+
+/* Hover effect for Navbar links */
+.nav-link {
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.nav-link:hover {
+  color: #ff7043; /* Change text color to match the button */
+  background-color: #fff; /* Add a background color when hovering over links */
+  border-radius: 5px; /* Optionally round the corners for visual appeal */
+}

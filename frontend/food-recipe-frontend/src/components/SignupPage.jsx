@@ -112,7 +112,7 @@ export function SignupPage() {
                     type="submit"
                     variant="primary"
                     className="w-50"
-                    disabled={!(dirty && isValid)}
+                    // disabled={!(dirty && isValid)}
                   >
                     Signup
                   </Button>
