@@ -19,10 +19,12 @@ function SignupPage() {
 
     const handleSubmit = async (formData) => {
         try {
-            console.log(formData);
             const response = await signUp(formData);
-            console.log(response);
+          
             if (response.status === 200) {
+                localStorage.setItem("token", JSON.stringify(response.data.token));
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                
                 toast.success("Sign Up Successful")
             }
         } catch (error) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
 import { url } from "../services/recipeService"; // Make sure this path is correct
+import { toast } from "react-toastify";
 
 const AddFoodRecipe = () => {
   const [recipeData, setRecipedata] = useState({});
@@ -23,17 +24,18 @@ const AddFoodRecipe = () => {
 
   const handleRecipeOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(recipeData);
-    await axios.post(url + "/recipe", recipeData, {
-      headers: {
-        'Content-Type' : 'multipart/form-data',
-        'Authorization': "Bearer "+localStorage.getItem("token")
+    try {
+      console.log(recipeData);
+      let response = await addRecipeToApi(recipeData)
+      if(response.status===200){
+        toast.success("Recipe added to the database successfully...");
+      }else{
+        toast.error("Something went wrong");
       }
-    }).then(() => {
-      alert("recipe added successfully...");
-    }).catch((err)=>{
-      alert("Invakid token");
-    })
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+    
   };
 
   return (

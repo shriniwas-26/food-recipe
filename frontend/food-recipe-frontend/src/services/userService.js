@@ -1,8 +1,9 @@
 import axios from "axios";
 import { url } from "./recipeService";
 
-export function signUp(formData){
-    return axios.post(url+ "/user/signUp",formData);
+export async function signUp(formData){
+    let response = await axios.post(url+ "/user/signUp",formData);
+    return response;
 }
 
 export function login(formData){
