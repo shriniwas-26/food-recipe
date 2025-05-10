@@ -26,14 +26,14 @@ const AddFoodRecipe = () => {
     console.log(recipeData);
     await axios.post(url + "/recipe", recipeData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': localStorage.getItem("token"),
+        'Content-Type' : 'multipart/form-data',
+        'Authorization': "Bearer "+localStorage.getItem("token")
       }
     }).then(() => {
-      alert("Recipe added successfully...");
-    }).catch((err) => {
-      console.log("Error adding recipe: " + err);
-    });
+      alert("recipe added successfully...");
+    }).catch((err)=>{
+      alert("Invakid token");
+    })
   };
 
   return (

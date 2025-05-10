@@ -18,7 +18,7 @@ export async function userSignUp(request, response){
                     name, email, password: encryptPwd
                 });
                 const token = jwt.sign({email, id: newUser._id}, process.env.SECRET_KEY);
-                response.status(StatusCodes.OK).send({message: "User created successfully.", token});
+                response.status(StatusCodes.OK).send({user:newUser, token});
             }
         }
     } catch (error) {
@@ -35,7 +35,7 @@ export async function userLogin(request, response){
             const user = await userModel.findOne({ email });
             if(user && await bcrypt.compare(password, user.password)){
                 const token = jwt.sign({email, id: user._id}, process.env.SECRET_KEY);
-                response.status(StatusCodes.OK).send({message: "User logged in successfully.", token});
+                response.status(StatusCodes.OK).send({user, token});
             }else{
                 response.status(StatusCodes.BAD_REQUEST).send({message: "Invalid credientials"});
             }
