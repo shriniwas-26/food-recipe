@@ -33,7 +33,7 @@ function LoginPage() {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 toast.success("Login successful!");
-                navigate("/addRecipe");
+                navigate("/");
             }
         } catch (error) {
             console.log(error);

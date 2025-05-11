@@ -49,7 +49,7 @@ export function NavigationBar() {
                 </LinkContainer>
               </>
             )}
-            <LinkContainer to="/addRecipe">
+            <LinkContainer to="/dashboard">
               <Nav.Link>Dashboard</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/contactus">
@@ -57,6 +57,9 @@ export function NavigationBar() {
             </LinkContainer>
             <LinkContainer to="/aboutus">
               <Nav.Link>AboutUs</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/addRecipe">
+              <Nav.Link>AddYourRecipe</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/myrecipes">
               <Nav.Link>My Recipes</Nav.Link>

@@ -1,49 +1,119 @@
 import React, { useEffect, useState } from "react";
-import { getAllRecipesFromApi } from "../services/recipeService";
+import { getAllRecipesFromApi, deleteRecipeFromApi } from "../services/recipeService";
 import MyRecipeItems from "./myRecipeItems";
-import { deleteRecipeFromApi } from "../services/recipeService";
 import { toast } from "react-toastify";
 
+const RECIPES_PER_PAGE = 5;
+
 const MyRecipes = () => {
-
   const [myRecipes, setMyRecipes] = useState([]);
-  const getMyRecipes = async ()=>{
-    let user = JSON.parse(localStorage.getItem("user"));
-    let allRecipes = await getAllRecipesFromApi();
-    let myAllRecipes = allRecipes.filter(item=> item.createdBy === user._id);
-    console.log("MyallRecipes : ",myAllRecipes);
-    setMyRecipes(myAllRecipes);
-  }
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("name"); // or "date"
+  const [currentPage, setCurrentPage] = useState(1);
 
-  async function deleteRecipe(id) {
-      try {
-        const response = await deleteRecipeFromApi(id);
-        if (response.status === 201 || response.status === 200) {
-          toast.success("Recipe deleted successfully...");
-        } else {
-          toast.error("Something went wrong");
-        }
-      } catch (error) {
+  const getMyRecipes = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user?._id) {
+        toast.error("User not found. Please log in again.");
+        return;
+      }
+
+      const allRecipes = await getAllRecipesFromApi();
+      const userRecipes = allRecipes.filter(item => item.createdBy === user._id);
+      setMyRecipes(userRecipes);
+    } catch (error) {
+      toast.error("Failed to fetch your recipes.");
+    }
+  };
+
+  const deleteRecipe = async (id) => {
+    try {
+      const response = await deleteRecipeFromApi(id);
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Recipe deleted successfully");
+        setMyRecipes(prev => prev.filter(recipe => recipe._id !== id));
+      } else {
         toast.error("Something went wrong");
       }
+    } catch (error) {
+      toast.error("Something went wrong while deleting");
     }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getMyRecipes();
-  },[]);
+  }, []);
+
+  // Filter, Sort and Paginate
+  const filteredRecipes = myRecipes
+    .filter(recipe =>
+      recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === "name") {
+        return a.title.localeCompare(b.title);
+      } else if (sortBy === "date") {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      return 0;
+    });
+
+  const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
+  const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
+  const currentRecipes = filteredRecipes.slice(startIndex, startIndex + RECIPES_PER_PAGE);
 
   return (
     <div className="container mt-5">
       <h2>My Recipes</h2>
       <p>This is where your saved recipes will appear.</p>
-      {/* Add your recipe list or component here */}
 
-      {
-        myRecipes?.map((item)=>{
-          return <MyRecipeItems key={item._id} deleteRecipe={deleteRecipe} item={item}/>
-        })
-      }
-      
+      {/* Search and Sort Controls */}
+      <div className="d-flex justify-content-between mb-3">
+        <input
+          type="text"
+          className="form-control w-50 me-2"
+          placeholder="Search by title..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+
+        <select
+          className="form-select w-25"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="name">Sort by Name</option>
+          <option value="date">Sort by Date</option>
+        </select>
+      </div>
+
+      {/* Recipe List */}
+      {currentRecipes.length === 0 ? (
+        <p className="text-muted">No matching recipes found.</p>
+      ) : (
+        currentRecipes.map(item => (
+          <MyRecipeItems key={item._id} item={item} deleteRecipe={deleteRecipe} />
+        ))
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center mt-4">
+          {[...Array(totalPages)].map((_, idx) => (
+            <button
+              key={idx}
+              className={`btn me-2 ${currentPage === idx + 1 ? "btn-primary" : "btn-outline-primary"}`}
+              onClick={() => setCurrentPage(idx + 1)}
+            >
+              {idx + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

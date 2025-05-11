@@ -47,3 +47,18 @@ export async function getRecipeFromApi(id) {
   }
   
 }
+
+// Function to update an existing recipe
+export async function updateRecipeInApi(id, recipeData) {
+  try {
+    const response = await axios.put(url + "/recipe/" + id, recipeData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Ensure multipart/form-data if uploading a file
+        "Authorization": "Bearer " + localStorage.getItem("token") // Include auth token if needed
+      }
+    });
+    return response.data; // Return the updated recipe data
+  } catch (error) {
+    console.log(error);
+  }
+}

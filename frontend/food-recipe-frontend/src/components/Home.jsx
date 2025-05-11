@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import food from '../assets/food.png';
 import { Container, Row, Col } from "react-bootstrap";
 import RecipeItems from "./RecipeItems";
-import './recipeItems.css'
+import './recipeItems.css';
 import { useNavigate } from "react-router-dom";
+
+
 const Home = () => {
-
   const navigate = useNavigate();
-
 
   return (
     <div className="min-vh-100">
+      {/* Scrolling Message below Navbar */}
+      <div className="scrolling-message">
+        <p>✨ Discover the best recipes! 🍽️ Share your favorite dishes and enjoy amazing food ideas from around the world! 🌎</p>
+      </div>
+
       <Container className="min-vh-100 d-flex flex-column justify-content-center">
         <Row>
           <Col className="" sm={12} lg={6}>
@@ -27,17 +32,26 @@ const Home = () => {
           </Col>
           <Col sm={12} lg={6}>
             <div className="h-100 d-flex flex-column justify-content-center m-3">
-              <img className="img-fluid d-block" src={food} />
+              <img className="img-fluid d-block" src={food} alt="Food"/>
             </div>
           </Col>
         </Row>
       </Container>
-      <Container className="d-flex justify-content-center justify-content-lg-start ">
-        <h1 className="m-3">All Recipes</h1>
+
+      <Container className="d-flex justify-content-center justify-content-lg-start">
+        <h1 className="m-3 recipe-title">All Recipes</h1>
       </Container>
+
       <Container>
-        <RecipeItems />
+        <div className="recipe-items">
+          <RecipeItems />
+        </div>
       </Container>
+
+      {/* Optional Footer */}
+      <div className="footer">
+        <p>&copy; 2025 Foodies. All rights reserved.</p>
+      </div>
     </div>
   );
 };
