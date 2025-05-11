@@ -19,6 +19,7 @@ import MyRecipes from "./components/MyRecipes";
 import Favourite from "./components/Favourite";
 import AddFoodRecipe from "./pages/AddFoodRecipe";
 import RecipeInfo from "./pages/RecipeInfo";
+import { PrivateRoute } from "./components/PrivateRoute"
 
 // Spinner Wrapper Component
 function PageLoaderWrapper({ children }) {
@@ -54,14 +55,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="recipeDetails/:id" element={<RecipeInfo />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/myrecipes" element={<MyRecipes />} />
-          <Route path="/addRecipe" element={<AddFoodRecipe />} />
           <Route path="/favourite" element={<Favourite />} />
-          <Route path="/recipelist" element={< MyRecipeItems/>} />
-          <Route path="*" element={<NotFound />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="recipeDetails/:id" element={<RecipeInfo />} />
+            <Route path="/myrecipes" element={<MyRecipes />} />
+            <Route path="/addRecipe" element={<AddFoodRecipe />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </PageLoaderWrapper>
       <ToastContainer />

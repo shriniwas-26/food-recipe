@@ -12,6 +12,7 @@ const ContactUs = () => {
   }
 
   return (
+    <>
     <Container className="my-5">
       <h2 className="text-center mb-4" style={{ color: '#ff4d30' }}>Contact Us</h2>
       <Row>
@@ -48,6 +49,8 @@ const ContactUs = () => {
         </Col>
       </Row>
     </Container>
+    <Footer />
+    </>
   );
 };
 

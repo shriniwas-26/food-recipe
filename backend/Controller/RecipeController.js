@@ -26,7 +26,12 @@ export async function getRecipes(request, response){
 export async function getRecipe(request, response){
     try {
         const recipe = await recipeModel.findById(request.params.id);
-        response.status(StatusCodes.OK).send(recipe);
+        if(recipe){
+             response.status(StatusCodes.OK).send(recipe);
+        }else{
+            response.status(StatusCodes.BAD_REQUEST).send({message: "Something went wrong"});
+        }
+       
     } catch (error) {
         response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Something went wrong"});
     }
@@ -39,9 +44,12 @@ export async function addRecipe(request, response){
         response.status(StatusCodes.BAD_REQUEST).send({message: "Required fields cant be empty"});
     }else{
         try {
+            
+            let ingredientsArr = data.ingredients.split(",");
             const newRecipe = await recipeModel.create({
-                title: data.title, ingredients: data.ingredients, instructions : data.instructions, time : data.time + " mins", coverImage: request.file.filename
+                title: data.title, ingredients: ingredientsArr, instructions: data.instructions, time: data.time + " mins", coverImage: request.file.filename, createdBy: request.user.id
             });
+            
             response.status(StatusCodes.CREATED).send({message: "Recipe added to the database"});
         } catch (error) {
             response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "Something went wrong."});

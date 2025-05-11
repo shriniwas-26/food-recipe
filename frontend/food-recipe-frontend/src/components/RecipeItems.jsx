@@ -4,9 +4,23 @@ import food from '../assets/food.png';
 import { RiTimerFill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
 import './recipeItems.css';
+import { Link } from "react-router-dom";
+import RecipeItem from "./recipeItem.jsx";
 
 const RecipeItems = () => {
   const [allRecipes, setAllRecipes] = useState([]);
+
+  // const [liked, setLiked] = useState(false);
+
+  // const handleLike = () => {
+  //   const existingLikes = JSON.parse(localStorage.getItem('likes')) || [];
+
+  //   if (!existingLikes.includes(itemId)) {
+  //     existingLikes.push(itemId);
+  //     localStorage.setItem('likes', JSON.stringify(existingLikes));
+  //     setLiked(true);
+  //   }
+  // };
 
   const getAllRecipes = async () => {
     try {
@@ -24,18 +38,10 @@ const RecipeItems = () => {
 
   return (
     <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
-      {allRecipes?.map((item, index) => (
-        <div key={index} className="card m-3 align-items-center" style={{ width: "15rem" }}>
-          {/* You don't need to import url, use the base URL directly */}
-          <img src={`http://localhost:5000/images/${item.coverImage}`} className="card-img-top" style={{ height: "160px" }} alt="..." />
-          <div className="card-body w-100 d-flex flex-column justify-content-between bg-light-green">
-            <h5 className="card-title fs-5 text-center">{item.title}</h5>
-            <div className="d-flex justify-content-between m-3">
-              <div><RiTimerFill /> <span>{item.time}</span></div>
-              <div><FaHeart /></div>
-            </div>
-          </div>
-        </div>
+      {allRecipes?.map((item) => (
+        
+        <RecipeItem item={item} />
+       
       ))}
     </div>
   );

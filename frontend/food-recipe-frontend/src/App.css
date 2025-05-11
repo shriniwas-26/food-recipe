@@ -3,3 +3,10 @@
   height: 100%;
   min-height: 100vh;
 }
+
+/* written while attaching footer to DashBoard page */
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}

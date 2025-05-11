@@ -12,11 +12,12 @@ const verifyToken = async(request,response,next)=>{
                 }else{
                     // console.log("Payload : "+payload);
                     // console.log("Req.user : "+request.user);
-                   
+                   request.user = payload;
+                   next();
                 }
                 
             });
-            next();
+            
         }else{
             response.status(StatusCodes.BAD_REQUEST).send({message: "Missing token"});
         }
