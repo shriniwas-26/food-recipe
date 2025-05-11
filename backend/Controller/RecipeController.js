@@ -40,8 +40,9 @@ export async function addRecipe(request, response){
     }else{
         try {
             console.log("Hiii boys")
+            let ingredientsArr = data.ingredients.split(",");
             const newRecipe = await recipeModel.create({
-                title: data.title, ingredients: data.ingredients, instructions: data.instructions, time: data.time + " mins"
+                title: data.title, ingredients: ingredientsArr, instructions: data.instructions, time: data.time + " mins", coverImage: request.file.filename, createdBy: request.user.id
             });
             console.log("Bye boys")
             response.status(StatusCodes.CREATED).send({message: "Recipe added to the database"});

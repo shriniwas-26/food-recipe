@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from "react-bootstrap";
 import food from '../assets/food.png';
+import { getRecipeFromApi } from '../services/recipeService';
+import { useParams} from 'react-router-dom';
 
 const RecipeInfo = () => {
+  const [recipe, setRecipe] = useState({});
+ // no need for setSearchParams
+  const {id} = useParams();
 
-    const recipe ={
-        ingredients: ["Shrimp", " butter", " garlic", ],
-        title: "Creamy Mushroom Risotto",
-        instructions: "In a pot, heat olive oil and sauté chopped onion and minced garlic until soft. Add sliced mushrooms and cook until browned. Stir in Arborio rice and cook for 1-2 minutes until lightly toasted. Pour in white wine and stir until absorbed. Gradually add warm vegetable broth, one ladle at a time, stirring constantly until the liquid is absorbed and rice is creamy and tender. Stir in butter, grated Parmesan, and chopped parsley. Season with salt and black pepper to taste. Serve hot, garnished with extra Parmesan and parsley.",
-        time: 25
-    }
+  async function getRecipe(id) {
+    const recipeData = await getRecipeFromApi(id);
+    console.log(recipeData);
+    setRecipe(recipeData);
+  }
+
+  useEffect(() => {
+    
+      getRecipe(id);
+    
+  }, [id]); // depend on `id`!
+  
   return (
     <Container className="recipe-container py-4">
       {/* Recipe Title */}
@@ -22,7 +33,7 @@ const RecipeInfo = () => {
       {/* Recipe Image */}
       <Row>
         <Col className="text-center">
-          <img src={ food } alt={recipe.title} className="recipe-image img-fluid" width={300} />
+          <img src={`http://localhost:5000/images/${recipe.coverImage}`} alt={recipe.title} className="recipe-image img-fluid" width={300} />
         </Col>
       </Row>
 
@@ -31,7 +42,7 @@ const RecipeInfo = () => {
         <Col md={3}>
           <h3>Ingredients</h3>
           <ul>
-            {recipe.ingredients.map((ingredient, index) => (
+            {recipe.ingredients?.map((ingredient, index) => (
               <li key={index}>{ingredient}</li>
             ))}
           </ul>
@@ -45,7 +56,7 @@ const RecipeInfo = () => {
       {/* Time Duration */}
       <Row className="text-center mt-4 p-4">
         <Col>
-          <h4><strong>Time Required:</strong> {recipe.time} minutes</h4>
+          <h4><strong>Time Required:</strong> {recipe.time}</h4>
         </Col>
       </Row>
     </Container>

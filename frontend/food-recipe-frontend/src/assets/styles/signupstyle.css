@@ -1,3 +1,21 @@
-.error{
+.signup-box {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.error {
     color: red;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 576px) {
+    .form-label,
+    .form-control {
+        font-size: 0.95rem;
+    }
+
+    .error {
+        font-size: 0.8rem;
+    }
 }

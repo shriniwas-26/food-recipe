@@ -5,7 +5,7 @@ export async function getAllRecipesFromApi(){
         
         const response = await axios.get(url+"/recipe");
         const allRecipes = response.data;
-        console.log(allRecipes);
+        // console.log(allRecipes);
         return allRecipes;
         
     } catch (error) {
@@ -21,4 +21,10 @@ export async function addRecipeToApi(recipeData){
         'Authorization': "Bearer "+localStorage.getItem("token")
       }
     });
+}
+
+export async function getRecipeFromApi(id) {
+  let response = await axios.get(url+"/recipe/"+id);
+  response = response.data;
+  return response;
 }

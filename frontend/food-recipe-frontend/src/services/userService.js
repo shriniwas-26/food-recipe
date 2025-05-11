@@ -7,5 +7,17 @@ export async function signUp(formData){
 }
 
 export function login(formData){
-    return axios.post(url+ "/user/login",formData,);
+    return axios.post(url+ "/user/login",formData);
+}
+
+export function storeToken(token){
+    localStorage.setItem("token",token);
+}
+
+export function removeToken(){
+    localStorage.removeItem("token");
+}
+
+export function getToken(){
+    return localStorage.getItem("token");
 }
