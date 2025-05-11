@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import "../components/recipeItems.css"
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import "../components/recipeItems.css";
 
 const Footer = () => {
     return (
@@ -23,17 +24,16 @@ const Footer = () => {
                         <h5>Follow Us</h5>
                         <p>
                             <a href="#" className="text-dark me-3">
-                                <i className="bi bi-facebook me-1"></i>Facebook
-                            </a>
+                                <FaFacebook className="me-1" /> Facebook
+                            </a><br />
                             <a href="#" className="text-dark me-3">
-                                <i className="bi bi-instagram me-1"></i>Instagram
-                            </a>
+                                <FaInstagram className="me-1" /> Instagram
+                            </a><br />
                             <a href="#" className="text-dark">
-                                <i className="bi bi-twitter me-1"></i>Twitter
+                                <FaTwitter className="me-1" /> Twitter
                             </a>
                         </p>
                     </Col>
-
                 </Row>
                 <hr className="bg-light" />
                 <p className="text-center mb-0">&copy; 2025 FoodieHeaven. All rights reserved.</p>

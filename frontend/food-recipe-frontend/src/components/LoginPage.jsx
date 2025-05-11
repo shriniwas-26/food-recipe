@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../services/UserService";
+import { login } from "../services/userService";
 import { loginSchema } from "../validation-schemas/LoginSchema";
 import { Formik, Field, ErrorMessage } from "formik";
 import '../assets/styles/signupstyle.css'; // adjust path based on actual location
@@ -33,7 +33,7 @@ function LoginPage() {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 toast.success("Login successful!");
-                navigate("/dashboard");
+                navigate("/");
             }
         } catch (error) {
             console.log(error);

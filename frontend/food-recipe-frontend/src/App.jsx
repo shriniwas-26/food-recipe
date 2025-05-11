@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "react-bootstrap/Spinner";
 import { PrivateRoute } from "./components/PrivateRoute";
+import MyRecipeItems from "../src/components/myRecipeItems";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("./components/Home"));
@@ -14,6 +15,7 @@ const SignupPage = lazy(() => import("./components/SignupPage"));
 const AboutUs = lazy(() => import("./components/AboutUs"));
 const ContactUs = lazy(() => import("./components/ContactUs"));
 const DashBoard = lazy(() => import("./components/DashBoard"));
+const EditFoodRecipe = lazy(() => import("./components/editRecipeForm"));
 const NotFound = lazy(() => import("./components/NotFound"));
 const MyRecipes = lazy(() => import("./components/MyRecipes"));
 const Favourite = lazy(() => import("./components/Favourite"));
@@ -38,6 +40,8 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/editRecipe/:id" element={<EditFoodRecipe />} />
           <Route element={<PrivateRoute />}>
             <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
             <Route path="/myrecipes" element={<MyRecipes />} />

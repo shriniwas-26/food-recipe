@@ -5,6 +5,7 @@ import RecipeItems from "./RecipeItems";
 import './recipeItems.css';
 import { useNavigate } from "react-router-dom";
 
+
 const Home = () => {
   const navigate = useNavigate();
 
@@ -16,15 +17,18 @@ const Home = () => {
       </div>
 
       <Container className="min-vh-100 d-flex flex-column justify-content-center">
-        <Row className="hero-section">
-          <Col sm={12} lg={6} className="d-flex flex-column justify-content-center text-center">
-            <h1 className="mt-4 mb-4">
-              <span>Food</span> is only an aspect of an experience.
-            </h1>
-            <p className="fs-sm-5">
-              Tasty recipes made simple. Find easy, delicious, and reliable recipes for every occasion. From quick dinners to sweet treats, cook with confidence and enjoy every bite!
-            </p>
-            <button onClick={() => navigate("/addRecipe")} className="bg-light-green text-black rounded-3 outline-none p-2 b-none">Share Your Recipe</button>
+        <Row>
+          <Col className="" sm={12} lg={6}>
+            <div className="h-100 ms-5 me-5 d-flex flex-column justify-content-center text-center">
+              <h1 className="mt-4 mb-4">
+                <span>Food</span> is only aspect of an experience.
+              </h1>
+              <p className="fs-sm-5">
+                Tasty recipes made simple.
+                Find easy, delicious, and reliable recipes for every occasion. From quick dinners to sweet treats, cook with confidence and enjoy every bite!
+              </p>
+              <button onClick={() => navigate("/addRecipe")} className="share-btn">Share your Recipe</button>
+            </div>
           </Col>
           <Col sm={12} lg={6}>
             <div className="h-100 d-flex flex-column justify-content-center m-3">

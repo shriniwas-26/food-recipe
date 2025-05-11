@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
-import { url } from "../services/recipeService"; // ✅ Make sure this path is correct
+import { url } from "../services/recipeService"; 
 import { toast } from "react-toastify";
 
 const AddFoodRecipe = () => {
@@ -10,11 +10,11 @@ const AddFoodRecipe = () => {
   const handleRecipeOnChange = (e) => {
     const value =
       e.target.name === "ingredients"
-        ? e.target.value.split(",") // ✅ Split string into array
+        ? e.target.value.split(",") 
         : e.target.name === "time"
         ? String(e.target.value)
         : e.target.name === "coverImage"
-        ? e.target.files[0] // ✅ Get file object
+        ? e.target.files[0] 
         : e.target.value;
 
     setRecipedata((pre) => ({
@@ -23,16 +23,15 @@ const AddFoodRecipe = () => {
     }));
   };
 
-  // ✅ FIXED: FormData usage for sending multipart/form-data to backend
   const handleRecipeOnSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("title", recipeData.title);
-      formData.append("ingredients", recipeData.ingredients.join(",")); // ✅ Join back to string
+      formData.append("ingredients", recipeData.ingredients.join(",")); 
       formData.append("instructions", recipeData.instructions);
       formData.append("time", recipeData.time);
-      formData.append("coverImage", recipeData.coverImage); // ✅ File upload
+      formData.append("coverImage", recipeData.coverImage); 
 
       const response = await axios.post(`${url}/recipe`, formData, {
         headers: {

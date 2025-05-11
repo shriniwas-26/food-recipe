@@ -1,0 +1,171 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { updateRecipeInApi, getRecipeFromApi } from "../services/recipeService";
+import { toast } from "react-toastify";
+import "../assets/styles/EditFoodRecipe.css";
+
+const EditFoodRecipe = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [recipeData, setRecipeData] = useState({
+    title: "",
+    ingredients: [],
+    instructions: "",
+    time: "",
+    coverImage: null,
+  });
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const data = await getRecipeFromApi(id);
+        setRecipeData({
+          title: data.title || "",
+          ingredients: data.ingredients || [],
+          instructions: data.instructions || "",
+          time: parseInt(data.time.split(" ")[0]) || "",
+          coverImage: null,
+        });
+      } catch (error) {
+        console.log("Error fetching recipe data:", error);
+        toast.error("Failed to fetch recipe details.");
+      }
+    };
+    fetchRecipe();
+  }, [id]);
+
+  const handleRecipeOnChange = (e) => {
+    const { name, value, files } = e.target;
+    let newValue;
+
+    // if (name === "ingredients") {
+    //   newValue = value.split(",").map((item) => item.trim());
+    // } else if (name === "coverImage") {
+    //   newValue = files[0];
+    // } else {
+    //   newValue = value;
+    // }
+
+    newValue = value;
+
+    setRecipeData((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
+  };
+
+  const handleRecipeOnSubmit = async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("title", recipeData.title);
+  formData.append("instructions", recipeData.instructions);
+  formData.append("time", recipeData.time);
+  formData.append("ingredients", recipeData.ingredients.join(", ")); 
+
+  if (recipeData.coverImage) {
+    formData.append("coverImage", recipeData.coverImage);
+  }
+
+  try {
+    const response = await updateRecipeInApi(id, formData);
+    toast.success("Recipe updated successfully!");
+  } catch (error) {
+    console.log("Error updating recipe:", error);
+    toast.error("Failed to update recipe. Please try again.");
+  }
+};
+
+  return (
+    <div className="container mt-5 mb-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10 col-lg-8">
+          <div className="shadow p-4 bg-white rounded">
+            <div className="text-center mb-4">
+              <h1 className="fw-bold">Edit Your Recipe</h1>
+              <p className="text-muted">Update your delicious creation!</p>
+            </div>
+            <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
+              <div className="row mb-3">
+                <div className="col-12 col-md-6 mb-3 mb-md-0">
+                  <label htmlFor="title" className="form-label">Recipe Title</label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    className="form-control"
+                    value={recipeData.title}
+                    onChange={handleRecipeOnChange}
+                    required
+                  />
+                </div>
+                <div className="col-12 col-md-6">
+                  <label htmlFor="ingredients" className="form-label">Ingredients</label>
+                  <input
+                    type="text"
+                    id="ingredients"
+                    name="ingredients"
+                    className="form-control"
+                    value={recipeData.ingredients.join(", ")}
+                    onChange={handleRecipeOnChange}
+                    placeholder="e.g., Flour, Sugar, Eggs"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="instructions" className="form-label">Instructions</label>
+                <textarea
+                  id="instructions"
+                  name="instructions"
+                  className="form-control"
+                  value={recipeData.instructions}
+                  onChange={handleRecipeOnChange}
+                  rows="5"
+                  required
+                ></textarea>
+              </div>
+
+              <div className="row mb-3">
+                <div className="col-12 col-md-6 mb-3 mb-md-0">
+                  <label htmlFor="time" className="form-label">Time (in minutes)</label>
+                  <input
+                    type="number"
+                    id="time"
+                    name="time"
+                    className="form-control"
+                    value={recipeData.time}
+                    onChange={handleRecipeOnChange}
+                    required
+                  />
+                </div>
+                <div className="col-12 col-md-6">
+                  <label htmlFor="coverImage" className="form-label">Cover Image</label>
+                  <input
+                    type="file"
+                    id="coverImage"
+                    name="coverImage"
+                    className="form-control"
+                    accept="image/*"
+                    onChange={handleRecipeOnChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-success w-50 p-10 btn-animated"
+                >
+                  save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EditFoodRecipe;

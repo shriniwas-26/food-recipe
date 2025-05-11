@@ -4,12 +4,13 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import './NavigationBar.css';
 import logo1 from "../Images/Logo1.png";
-import { removeToken } from "../services/UserService";
+import { removeToken } from '../services/userService';
 
 export function NavigationBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  let user = JSON.parse(localStorage.getItem("user"));
 
   // Update login state on mount and when route changes
   useEffect(() => {
@@ -57,6 +58,9 @@ export function NavigationBar() {
             <LinkContainer to="/aboutus">
               <Nav.Link>AboutUs</Nav.Link>
             </LinkContainer>
+            <LinkContainer to="/addRecipe">
+              <Nav.Link>AddYourRecipe</Nav.Link>
+            </LinkContainer>
             <LinkContainer to="/myrecipes">
               <Nav.Link>My Recipes</Nav.Link>
             </LinkContainer>
@@ -66,9 +70,12 @@ export function NavigationBar() {
           </Nav>
           <Nav>
             {isLoggedIn && (
+              <div>
               <Button variant="danger" onClick={handleLogout} className="logout-btn">
                 Logout
               </Button>
+              <span className='ms-3'>{ user?.email ? user?.email : ""}</span>
+              </div>
             )}
           </Nav>
         </Navbar.Collapse>
