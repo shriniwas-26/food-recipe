@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
-import { url } from "../services/recipeService"; // Make sure this path is correct
+import { url } from "../services/recipeService"; // ✅ Make sure this path is correct
+import { toast } from "react-toastify";
 
 const AddFoodRecipe = () => {
   const [recipeData, setRecipedata] = useState({});
@@ -9,31 +10,46 @@ const AddFoodRecipe = () => {
   const handleRecipeOnChange = (e) => {
     const value =
       e.target.name === "ingredients"
-        ? e.target.value.split(",")
+        ? e.target.value.split(",") // ✅ Split string into array
         : e.target.name === "time"
         ? String(e.target.value)
         : e.target.name === "coverImage"
-        ? e.target.files[0]
+        ? e.target.files[0] // ✅ Get file object
         : e.target.value;
+
     setRecipedata((pre) => ({
       ...pre,
       [e.target.name]: value,
     }));
   };
 
+  // ✅ FIXED: FormData usage for sending multipart/form-data to backend
   const handleRecipeOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(recipeData);
-    await axios.post(url + "/recipe", recipeData, {
-      headers: {
-        'Content-Type' : 'multipart/form-data',
-        'Authorization': "Bearer "+localStorage.getItem("token")
+    try {
+      const formData = new FormData();
+      formData.append("title", recipeData.title);
+      formData.append("ingredients", recipeData.ingredients.join(",")); // ✅ Join back to string
+      formData.append("instructions", recipeData.instructions);
+      formData.append("time", recipeData.time);
+      formData.append("coverImage", recipeData.coverImage); // ✅ File upload
+
+      const response = await axios.post(`${url}/recipe`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Recipe added to the database successfully...");
+      } else {
+        toast.error("Something went wrong");
       }
-    }).then(() => {
-      alert("recipe added successfully...");
-    }).catch((err)=>{
-      alert("Invakid token");
-    })
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -58,6 +74,7 @@ const AddFoodRecipe = () => {
               required
             />
           </div>
+
           <div className="mb-3">
             <label htmlFor="ingredients" className="form-label">
               Ingredients
@@ -67,11 +84,12 @@ const AddFoodRecipe = () => {
               name="ingredients"
               className="form-control"
               rows="3"
-              placeholder="List ingredients"
+              placeholder="List ingredients (separated by commas)"
               onChange={handleRecipeOnChange}
               required
             ></textarea>
           </div>
+
           <div className="mb-3">
             <label htmlFor="instructions" className="form-label">
               Instructions
@@ -86,6 +104,7 @@ const AddFoodRecipe = () => {
               required
             ></textarea>
           </div>
+
           <div className="mb-3">
             <label htmlFor="timer" className="form-label">
               Cooking Time (minutes)
@@ -100,6 +119,7 @@ const AddFoodRecipe = () => {
               required
             />
           </div>
+
           <div className="mb-3">
             <label htmlFor="file" className="form-label">
               Upload Image
