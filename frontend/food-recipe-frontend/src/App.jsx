@@ -5,6 +5,7 @@ import { NavigationBar } from "./components/NavigationBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "react-bootstrap/Spinner";
+import MyRecipeItems from "../src/components/myRecipeItems";
 
 // Page components (direct imports)
 import Home from "./components/Home";
@@ -59,6 +60,7 @@ function App() {
           <Route path="/myrecipes" element={<MyRecipes />} />
           <Route path="/addRecipe" element={<AddFoodRecipe />} />
           <Route path="/favourite" element={<Favourite />} />
+          <Route path="/recipelist" element={< MyRecipeItems/>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </PageLoaderWrapper>
