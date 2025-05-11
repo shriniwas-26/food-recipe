@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
 import { url } from "../services/recipeService"; // Make sure this path is correct
+import '../components/recipeItems.css'
 
 const AddFoodRecipe = () => {
   const [recipeData, setRecipedata] = useState({});
@@ -116,7 +117,7 @@ const AddFoodRecipe = () => {
 
           <button
             type="submit"
-            className="bg-light-green text-black rounded-3 outline-none p-2 b-none w-100"
+            className="share-btn1 d-block mx-auto"
           >
             Submit Recipe
           </button>

@@ -46,6 +46,24 @@
   cursor: pointer;
 }
 
+/* below code is for "Submit Recipe" button which is on "Add your recipe" form  */
+.share-btn1 {
+  border: none;
+  background-color: #C5E1A5;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.share-btn1:hover {
+  transform: scale(1.05);
+  background-color: #aed581;
+  color: #db1414;
+  cursor: pointer;
+}
+
 /* below program is for background image as a wallpaper but didn't used */
 
 .page-background {

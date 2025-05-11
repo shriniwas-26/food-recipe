@@ -20,7 +20,17 @@ export function NavigationBar() {
       <Container>
         <Navbar.Brand>
           <Link to="/" className="text-decoration-none text-dark d-flex align-items-center">
-            <img src={logo1} alt="TastyBite Logo" style={{ height: "70px", width: "80px", marginRight: "10px" }} />
+            <img
+              src={logo1}
+              alt="TastyBite Logo"
+              style={{
+                height: "70px",
+                width: "80px",
+                marginRight: "40px",
+                transform: "scale(1.8)",  // Visually increase size
+                transformOrigin: "left center" // Keeps it aligned left
+              }}
+            />
           </Link>
 
         </Navbar.Brand>
@@ -40,10 +50,10 @@ export function NavigationBar() {
               <Nav.Link className="nav-link">Dashboard</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/contactus">
-              <Nav.Link className="nav-link">ContactUs</Nav.Link>
+              <Nav.Link className="nav-link">Contact Us</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/aboutus">
-              <Nav.Link className="nav-link">AboutUs</Nav.Link>
+              <Nav.Link className="nav-link">About Us</Nav.Link>
             </LinkContainer>
             {/* Added "My Recipes" and "Favourite" */}
             <LinkContainer to="/myrecipes">
