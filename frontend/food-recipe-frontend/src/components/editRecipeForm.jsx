@@ -7,6 +7,7 @@ import "../assets/styles/EditFoodRecipe.css";
 const EditFoodRecipe = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [recipeData, setRecipeData] = useState({
     title: "",
     ingredients: [],
@@ -15,66 +16,66 @@ const EditFoodRecipe = () => {
     coverImage: null,
   });
 
+  const fetchRecipe = async () => {
+    try {
+      const data = await getRecipeFromApi(id);
+      setRecipeData({
+        title: data.title || "",
+        ingredients: Array.isArray(data.ingredients)
+          ? data.ingredients
+          : (data.ingredients || "").split(",").map((item) => item.trim()),
+        instructions: data.instructions || "",
+        time: parseInt(data.time?.split(" ")[0]) || "",
+        coverImage: null, // Reset on fetch
+      });
+    } catch (error) {
+      console.error("Error fetching recipe data:", error);
+      toast.error("Failed to fetch recipe details.");
+    }
+  };
+
   useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const data = await getRecipeFromApi(id);
-        setRecipeData({
-          title: data.title || "",
-          ingredients: data.ingredients || [],
-          instructions: data.instructions || "",
-          time: parseInt(data.time.split(" ")[0]) || "",
-          coverImage: null,
-        });
-      } catch (error) {
-        console.log("Error fetching recipe data:", error);
-        toast.error("Failed to fetch recipe details.");
-      }
-    };
     fetchRecipe();
   }, [id]);
 
   const handleRecipeOnChange = (e) => {
     const { name, value, files } = e.target;
-    let newValue;
-
-    // if (name === "ingredients") {
-    //   newValue = value.split(",").map((item) => item.trim());
-    // } else if (name === "coverImage") {
-    //   newValue = files[0];
-    // } else {
-    //   newValue = value;
-    // }
-
-    newValue = value;
 
     setRecipeData((prev) => ({
       ...prev,
-      [name]: newValue,
+      [name]:
+        name === "ingredients"
+          ? value.split(",").map((item) => item.trim())
+          : name === "coverImage"
+          ? files[0]
+          : value,
     }));
   };
 
   const handleRecipeOnSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("title", recipeData.title);
-  formData.append("instructions", recipeData.instructions);
-  formData.append("time", recipeData.time);
-  formData.append("ingredients", recipeData.ingredients.join(", ")); 
+    const formData = new FormData();
+    formData.append("title", recipeData.title);
+    formData.append("instructions", recipeData.instructions);
+    formData.append("time", recipeData.time);
+    formData.append("ingredients", recipeData.ingredients.join(", "));
 
-  if (recipeData.coverImage) {
-    formData.append("coverImage", recipeData.coverImage);
-  }
+    if (recipeData.coverImage) {
+      formData.append("coverImage", recipeData.coverImage);
+    }
 
-  try {
-    const response = await updateRecipeInApi(id, formData);
-    toast.success("Recipe updated successfully!");
-  } catch (error) {
-    console.log("Error updating recipe:", error);
-    toast.error("Failed to update recipe. Please try again.");
-  }
-};
+    try {
+      const response = await updateRecipeInApi(id, formData);
+      if (response?.status === 200) {
+        toast.success("Recipe updated successfully!");
+        navigate("/myrecipes");
+      }
+    } catch (error) {
+      console.error("Error updating recipe:", error);
+      toast.error("Failed to update recipe. Please try again.");
+    }
+  };
 
   return (
     <div className="container mt-5 mb-5">
@@ -87,7 +88,7 @@ const EditFoodRecipe = () => {
             </div>
             <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
               <div className="row mb-3">
-                <div className="col-12 col-md-6 mb-3 mb-md-0">
+                <div className="col-md-6 mb-3">
                   <label htmlFor="title" className="form-label">Recipe Title</label>
                   <input
                     type="text"
@@ -99,7 +100,7 @@ const EditFoodRecipe = () => {
                     required
                   />
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-md-6 mb-3">
                   <label htmlFor="ingredients" className="form-label">Ingredients</label>
                   <input
                     type="text"
@@ -124,11 +125,11 @@ const EditFoodRecipe = () => {
                   onChange={handleRecipeOnChange}
                   rows="5"
                   required
-                ></textarea>
+                />
               </div>
 
               <div className="row mb-3">
-                <div className="col-12 col-md-6 mb-3 mb-md-0">
+                <div className="col-md-6 mb-3">
                   <label htmlFor="time" className="form-label">Time (in minutes)</label>
                   <input
                     type="number"
@@ -140,7 +141,7 @@ const EditFoodRecipe = () => {
                     required
                   />
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-md-6 mb-3">
                   <label htmlFor="coverImage" className="form-label">Cover Image</label>
                   <input
                     type="file"
@@ -152,12 +153,10 @@ const EditFoodRecipe = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex justify-content-center">
-                <button
-                  type="submit"
-                  className="btn btn-success w-50 p-10 btn-animated"
-                >
-                  save
+
+              <div className="text-center">
+                <button type="submit" className="btn btn-success w-50 btn-animated">
+                  Save
                 </button>
               </div>
             </form>

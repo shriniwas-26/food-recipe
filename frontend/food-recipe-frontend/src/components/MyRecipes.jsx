@@ -8,7 +8,7 @@ const RECIPES_PER_PAGE = 5;
 const MyRecipes = () => {
   const [myRecipes, setMyRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("name"); // or "date"
+  const [sortBy, setSortBy] = useState("asc"); // "asc" or "desc"
   const [currentPage, setCurrentPage] = useState(1);
 
   const getMyRecipes = async () => {
@@ -30,7 +30,7 @@ const MyRecipes = () => {
   const deleteRecipe = async (id) => {
     try {
       const response = await deleteRecipeFromApi(id);
-      if (response.status === 200 || response.status === 201) {
+      if (response.status === 200) {
         toast.success("Recipe deleted successfully");
         setMyRecipes(prev => prev.filter(recipe => recipe._id !== id));
       } else {
@@ -45,18 +45,15 @@ const MyRecipes = () => {
     getMyRecipes();
   }, []);
 
-  // Filter, Sort and Paginate
+  // Filter, Sort, and Paginate
   const filteredRecipes = myRecipes
     .filter(recipe =>
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
-      if (sortBy === "name") {
-        return a.title.localeCompare(b.title);
-      } else if (sortBy === "date") {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      }
-      return 0;
+      return sortBy === "asc"
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title);
     });
 
   const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
@@ -86,8 +83,8 @@ const MyRecipes = () => {
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
-          <option value="name">Sort by Name</option>
-          <option value="date">Sort by Date</option>
+          <option value="asc">Sort by Name: A-Z</option>
+          <option value="desc">Sort by Name: Z-A</option>
         </select>
       </div>
 
