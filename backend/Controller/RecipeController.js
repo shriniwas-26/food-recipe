@@ -27,7 +27,7 @@ export async function getRecipe(request, response){
     try {
         const recipe = await recipeModel.findById(request.params.id);
         if(recipe){
-             response.status(StatusCodes.OK).send(recipe);
+             response.status(StatusCodes.OK).send(JSON.stringify(recipe));
         }else{
             response.status(StatusCodes.BAD_REQUEST).send({message: "Something went wrong"});
         }
@@ -60,14 +60,16 @@ export async function addRecipe(request, response){
 export async function editRecipe(request, response){
     try {
         const {title, ingredients, instructions, time } = request.body;
+
+        console.log("edit recipe: ",request.body);
         const id = request.params.id;
         const recipe = await recipeModel.findById(id);
         if(recipe){
-            await recipeModel.findByIdAndUpdate(id, request.body, {new: true});
+            await recipeModel.findByIdAndUpdate(id, {title, ingredients, instructions, time });
             response.status(StatusCodes.OK).send({message: "recipe updated successfully"});
         }
     } catch (error) {
-        response.status(StatusCodes.NOT_FOUND).send({message: "Something went wrong recipe not found"});
+        response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message: "Something went wrong"});
     }
 }
 
