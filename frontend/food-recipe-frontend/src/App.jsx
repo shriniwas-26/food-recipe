@@ -5,6 +5,7 @@ import { NavigationBar } from "./components/NavigationBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "react-bootstrap/Spinner";
+import MyRecipeItems from "../src/components/myRecipeItems";
 
 // Page components (direct imports)
 import Home from "./components/Home";

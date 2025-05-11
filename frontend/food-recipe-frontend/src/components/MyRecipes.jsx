@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getAllRecipesFromApi } from "../services/recipeService";
 import MyRecipeItems from "./myRecipeItems";
+import { deleteRecipeFromApi } from "../services/recipeService";
+import { toast } from "react-toastify";
 
 const MyRecipes = () => {
 
@@ -12,6 +14,19 @@ const MyRecipes = () => {
     console.log("MyallRecipes : ",myAllRecipes);
     setMyRecipes(myAllRecipes);
   }
+
+  async function deleteRecipe(id) {
+      try {
+        const response = await deleteRecipeFromApi(id);
+        if (response.status === 201 || response.status === 200) {
+          toast.success("Recipe deleted successfully...");
+        } else {
+          toast.error("Something went wrong");
+        }
+      } catch (error) {
+        toast.error("Something went wrong");
+      }
+    }
 
   useEffect(()=>{
     getMyRecipes();
@@ -25,7 +40,7 @@ const MyRecipes = () => {
 
       {
         myRecipes?.map((item)=>{
-          return <MyRecipeItems item={item}/>
+          return <MyRecipeItems key={item._id} deleteRecipe={deleteRecipe} item={item}/>
         })
       }
       
