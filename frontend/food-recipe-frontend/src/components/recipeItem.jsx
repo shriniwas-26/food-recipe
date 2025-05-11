@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { RiTimerFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RecipeItem = ({item}) => {
   const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if this item is already liked on mount
@@ -26,6 +27,7 @@ const RecipeItem = ({item}) => {
     }
 
     localStorage.setItem('likes', JSON.stringify(existingLikes));
+
   };
 
   return (
