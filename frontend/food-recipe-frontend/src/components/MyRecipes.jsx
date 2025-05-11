@@ -41,13 +41,16 @@ const MyRecipes = () => {
         <h2>My Recipes</h2>
         <p>This is where your saved recipes will appear.</p>
 
-        {myRecipes?.length > 0 ? (
-          myRecipes.map((item) => (
-            <MyRecipeItems key={item._id} deleteRecipe={deleteRecipe} item={item} />
-          ))
-        ) : (
-          <p>No recipes found.</p>
-        )}
+        <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+          {myRecipes?.length > 0 ? (
+            myRecipes.map((item) => (
+              <MyRecipeItems key={item._id} deleteRecipe={deleteRecipe} item={item} />
+            ))
+          ) : (
+            <p>No recipes found.</p>
+          )}
+        </div>
+
       </main>
 
       {/* Footer at the bottom */}

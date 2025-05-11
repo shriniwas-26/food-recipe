@@ -21,3 +21,7 @@ export function removeToken(){
 export function getToken(){
     return localStorage.getItem("token");
 }
+
+export function addFeedback(data){
+    return axios.post(url+"/feedback", data)
+}

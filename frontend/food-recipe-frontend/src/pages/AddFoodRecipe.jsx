@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
-import { url } from "../services/recipeService"; // ✅ Make sure this path is correct
+import { url } from "../services/recipeService";
 import { toast } from "react-toastify";
 
 const AddFoodRecipe = () => {
@@ -10,12 +10,12 @@ const AddFoodRecipe = () => {
   const handleRecipeOnChange = (e) => {
     const value =
       e.target.name === "ingredients"
-        ? e.target.value.split(",") // ✅ Split string into array
+        ? e.target.value.split(",")
         : e.target.name === "time"
-        ? String(e.target.value)
-        : e.target.name === "coverImage"
-        ? e.target.files[0] // ✅ Get file object
-        : e.target.value;
+          ? String(e.target.value)
+          : e.target.name === "coverImage"
+            ? e.target.files[0]
+            : e.target.value;
 
     setRecipedata((pre) => ({
       ...pre,
@@ -23,26 +23,32 @@ const AddFoodRecipe = () => {
     }));
   };
 
-  // ✅ FIXED: FormData usage for sending multipart/form-data to backend
   const handleRecipeOnSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       formData.append("title", recipeData.title);
-      formData.append("ingredients", recipeData.ingredients.join(",")); // ✅ Join back to string
+      formData.append("ingredients", recipeData.ingredients.join(","));
       formData.append("instructions", recipeData.instructions);
       formData.append("time", recipeData.time);
-      formData.append("coverImage", recipeData.coverImage); // ✅ File upload
+      formData.append("coverImage", recipeData.coverImage);
 
       const response = await axios.post(`${url}/recipe`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": "Bearer " + localStorage.getItem("token")
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
 
       if (response.status === 201 || response.status === 200) {
         toast.success("Recipe added to the database successfully...");
+        setRecipedata({
+          title: "",
+          ingredients: "",
+          instructions: "",
+          time: "",
+          coverImage: null,
+        });
       } else {
         toast.error("Something went wrong");
       }
@@ -57,7 +63,9 @@ const AddFoodRecipe = () => {
       <div className="shadow p-4 bg-white rounded col-11 col-md-8">
         <div className="text-center mb-4">
           <h1 className="fw-bold">Add Your Recipe</h1>
-          <p className="text-muted">Share your delicious creations with the world!</p>
+          <p className="text-muted">
+            Share your delicious creations with the world!
+          </p>
         </div>
         <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
           <div className="mb-3">
@@ -68,6 +76,7 @@ const AddFoodRecipe = () => {
               type="text"
               id="title"
               name="title"
+              value={recipeData.title}
               className="form-control"
               placeholder="Enter recipe title"
               onChange={handleRecipeOnChange}
@@ -82,6 +91,7 @@ const AddFoodRecipe = () => {
             <textarea
               id="ingredients"
               name="ingredients"
+              value={recipeData.ingredients}
               className="form-control"
               rows="3"
               placeholder="List ingredients (separated by commas)"
@@ -97,6 +107,7 @@ const AddFoodRecipe = () => {
             <textarea
               id="instructions"
               name="instructions"
+              value={recipeData.instructions}
               className="form-control"
               rows="4"
               placeholder="Enter cooking instructions"
@@ -113,6 +124,7 @@ const AddFoodRecipe = () => {
               type="number"
               id="timer"
               name="time"
+              value={recipeData.time}
               className="form-control"
               placeholder="Enter cooking time"
               onChange={handleRecipeOnChange}
@@ -134,12 +146,16 @@ const AddFoodRecipe = () => {
             />
           </div>
 
-          <button
+          <div className="btn-container">
+            <button className="share-btn1">Submit Recipe</button>
+          </div>
+
+          {/* <button
             type="submit"
-            className="share-btn1 d-block mx-auto"
+            className="share-btn1"
           >
             Submit Recipe
-          </button>
+          </button> */}
         </form>
       </div>
     </div>

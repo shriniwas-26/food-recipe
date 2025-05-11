@@ -64,6 +64,15 @@
   cursor: pointer;
 }
 
+/* to make share recipe button at centre which in add your recipe page */
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* optional spacing */
+}
+
+
 /* below program is for background image as a wallpaper but didn't used */
 
 .page-background {

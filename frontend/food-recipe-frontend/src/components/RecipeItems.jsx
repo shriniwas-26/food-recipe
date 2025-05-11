@@ -10,23 +10,10 @@ import RecipeItem from "./recipeItem.jsx";
 const RecipeItems = () => {
   const [allRecipes, setAllRecipes] = useState([]);
 
-  // const [liked, setLiked] = useState(false);
-
-  // const handleLike = () => {
-  //   const existingLikes = JSON.parse(localStorage.getItem('likes')) || [];
-
-  //   if (!existingLikes.includes(itemId)) {
-  //     existingLikes.push(itemId);
-  //     localStorage.setItem('likes', JSON.stringify(existingLikes));
-  //     setLiked(true);
-  //   }
-  // };
-
   const getAllRecipes = async () => {
     try {
       const response = await getAllRecipesFromApi();
-      console.log(response);
-      setAllRecipes(response); // Ensure the data is properly set
+      setAllRecipes(response);
     } catch (error) {
       console.log("Error fetching recipes:", error);
     }
@@ -37,13 +24,19 @@ const RecipeItems = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
-      {allRecipes?.map((item) => (
-        
-        <RecipeItem item={item} />
-       
-      ))}
-    </div>
+    <>
+      {allRecipes.length > 0 && (
+        <div className="container d-flex justify-content-center justify-content-lg-start">
+          <h1 className="m-3">All Recipes</h1>
+        </div>
+      )}
+
+      <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+        {allRecipes.length > 0 ? (
+          allRecipes.map((item) => <RecipeItem key={item._id} item={item} />)
+        ) : null}
+      </div>
+    </>
   );
 };
 

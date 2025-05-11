@@ -19,3 +19,17 @@
   background-color: #fff; /* Add a background color when hovering over links */
   border-radius: 5px; /* Optionally round the corners for visual appeal */
 }
+
+/* Below code is added to give effects to buttons which are in footer */
+.footer-link {
+  color: #212529;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ff7043;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
