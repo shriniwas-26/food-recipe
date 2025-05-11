@@ -42,8 +42,8 @@ function App() {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/favourite" element={<Favourite />} />
           <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/editRecipe/:id" element={<EditFoodRecipe />} />
           <Route element={<PrivateRoute />}>
+            <Route path="/editRecipe/:id" element={<EditFoodRecipe />} />
             <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
             <Route path="/myrecipes" element={<MyRecipes />} />
             <Route path="/addRecipe" element={<AddFoodRecipe />} />

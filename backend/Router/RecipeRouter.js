@@ -6,7 +6,7 @@ const recipeRouter = express.Router();
 recipeRouter.get("/", getRecipes); // Get All Recipes
 recipeRouter.get("/:id", getRecipe); // Get a specific Recipe
 recipeRouter.post("/",upload.single('coverImage'), verifyToken,addRecipe); // Add a new Recipe
-recipeRouter.put("/:id",upload.single('coverImage'), editRecipe); // Edit a Recipe
+recipeRouter.put("/:id",upload.single('coverImage'),verifyToken, editRecipe); // Edit a Recipe
 recipeRouter.delete("/:id", deleteRecipe); // Delete a Recipe
 
 
