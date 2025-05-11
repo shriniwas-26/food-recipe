@@ -14,8 +14,8 @@ export async function getAllRecipesFromApi(){
     
 }
 
-export function addRecipeToApi(recipeData){
-    return axios.post(url + "/recipe", recipeData, {
+export async function addRecipeToApi(recipeData){
+    return await axios.post(url + "/recipe", recipeData, {
       headers: {
         'Content-Type' : 'multipart/form-data',
         'Authorization': "Bearer "+localStorage.getItem("token")

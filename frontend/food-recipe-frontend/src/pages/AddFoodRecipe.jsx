@@ -27,13 +27,14 @@ const AddFoodRecipe = () => {
     try {
       console.log(recipeData);
       let response = await addRecipeToApi(recipeData)
-      if(response.status===200){
+      console.log("response : ", response);
+      if(response.status===201){
         toast.success("Recipe added to the database successfully...");
       }else{
         toast.error("Something went wrong");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong bad");
     }
     
   };

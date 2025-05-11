@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { login } from "../services/UserService";
+import { login } from "../services/userService";
 import { loginSchema } from "../validation-schemas/LoginSchema";
 import { Formik, Field, ErrorMessage } from "formik";
 
@@ -29,7 +29,7 @@ function LoginPage() {
       const response = await login(values);
 
       if (response.status === 200) {
-        localStorage.setItem("token", JSON.stringify(response.data.token));
+        localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         toast.success("Login successful!");
         // navigate("/dashboard");

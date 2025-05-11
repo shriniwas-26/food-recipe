@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { signUpSchema } from "../validation-schemas/SignUpSchema";
 import '../assets/styles/signupstyle.css';
-import { signUp } from "../services/UserService";
+import { signUp } from "../services/userService";
 
 function SignupPage() {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ function SignupPage() {
             const response = await signUp(formData);
           
             if (response.status === 200) {
-                localStorage.setItem("token", JSON.stringify(response.data.token));
+                localStorage.setItem("token", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 
                 toast.success("Sign Up Successful")
