@@ -5,7 +5,7 @@ import RecipeItems from "./RecipeItems";
 import './recipeItems.css'
 import { useNavigate } from "react-router-dom";
 const Home = () => {
-    
+
   const navigate = useNavigate();
 
 
@@ -19,10 +19,10 @@ const Home = () => {
                 <span>Food</span> is only aspect of an experience.
               </h1>
               <p className="fs-sm-5">
-              Tasty recipes made simple.
-              Find easy, delicious, and reliable recipes for every occasion. From quick dinners to sweet treats, cook with confidence and enjoy every bite!
+                Tasty recipes made simple.
+                Find easy, delicious, and reliable recipes for every occasion. From quick dinners to sweet treats, cook with confidence and enjoy every bite!
               </p>
-              <button onClick={()=>navigate("/addRecipe")} className="bg-light-green text-black rounded-3 outline-none p-2 b-none">Share your Recipe</button>
+              <button onClick={() => navigate("/addRecipe")} className="share-btn">Share your Recipe</button>
             </div>
           </Col>
           <Col sm={12} lg={6}>
