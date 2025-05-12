@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { getAllRecipesFromApi } from "../services/recipeService.js";
-import food from '../assets/food.png';
-import { RiTimerFill } from "react-icons/ri";
-import { FaHeart } from "react-icons/fa";
-import './recipeItems.css';
-import { Link } from "react-router-dom";
-import RecipeItem from "./recipeItem.jsx";
+import { getAllRecipesFromApi } from "../services/recipeService";
+import RecipeItem from "./RecipeItem";
 
 const RecipeItems = () => {
   const [allRecipes, setAllRecipes] = useState([]);
 
-  const getAllRecipes = async () => {
-    try {
-      const response = await getAllRecipesFromApi();
-      setAllRecipes(response);
-    } catch (error) {
-      console.log("Error fetching recipes:", error);
-    }
-  };
-
   useEffect(() => {
-    getAllRecipes();
+    const fetchRecipes = async () => {
+      try {
+        const response = await getAllRecipesFromApi();
+        setAllRecipes(response);
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
+    };
+    fetchRecipes();
   }, []);
 
   return (
@@ -30,11 +24,10 @@ const RecipeItems = () => {
           <h1 className="m-3">All Recipes</h1>
         </div>
       )}
-
       <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
-        {allRecipes.length > 0 ? (
-          allRecipes.map((item) => <RecipeItem key={item._id} item={item} />)
-        ) : null}
+        {allRecipes.map((item) => (
+          <RecipeItem key={item._id} item={item} />
+        ))}
       </div>
     </>
   );
