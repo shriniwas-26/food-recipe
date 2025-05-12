@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/userService";
 import { loginSchema } from "../validation-schemas/LoginSchema";
 import { Formik, Field, ErrorMessage } from "formik";
-import '../assets/styles/loginstyle.css'; // adjust path based on actual location
+import '../assets/styles/signupstyle.css'; // adjust path based on actual location
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ function LoginPage() {
     };
 
     return (
-        <Container fluid className="d-flex justify-content-center align-items-center vh-100 bg-image">
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100">
             <div className="signup-box p-4 rounded shadow-sm bg-white w-100" style={{ maxWidth: '500px' }}>
                 <Alert variant="success" className="mb-3 text-center">
                     <h4>Login page</h4>

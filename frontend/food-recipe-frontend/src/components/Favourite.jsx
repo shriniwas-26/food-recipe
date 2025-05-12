@@ -1,51 +1,52 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import RecipeItem from "./RecipeItem";
+import RecipeItem from "./recipeItem";
+import { getRecipeFromApi } from "../services/recipeService";
+import Footer from "./Footer";
 
-function Favourite() {
-  const [favourites, setFavourites] = useState([]);
+const Favourite = () => {
+  const [favouriteRecipe, setFavouriteRecipe] = useState([]);
 
   useEffect(() => {
-    fetchFavourites();
+    fetchRecipes();
   }, []);
 
-  const fetchFavourites = async () => {
+  async function fetchRecipes() {
+    const favRecipesIds = JSON.parse(localStorage.getItem("likes")) || [];
     try {
-      const response = await axios.get("http://localhost:5000/api/recipes/favourites");
-      setFavourites(response.data);
+      const recipes = await Promise.all(
+        favRecipesIds.map((id) => getRecipeFromApi(id))
+      );
+      setFavouriteRecipe(recipes);
     } catch (error) {
-      console.error("Error fetching favourites:", error);
+      console.log(error);
     }
-  };
+  }
 
-  const handleRemoveFavourite = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/recipes/favourites/${id}`);
-      setFavourites(favourites.filter((recipe) => recipe._id !== id));
-    } catch (error) {
-      console.error("Error removing favourite:", error);
-    }
+  // Handle unliking from the child
+  const handleUnlike = (id) => {
+    const updatedList = favouriteRecipe.filter((recipe) => recipe._id !== id);
+    setFavouriteRecipe(updatedList);
   };
 
   return (
-    <div className="favourites">
-      <h2>Favourite Recipes</h2>
-      <div className="recipe-list">
-        {favourites.length === 0 ? (
-          <p>No favourites found.</p>
-        ) : (
-          favourites.map((recipe) => (
-            <RecipeItem
-              key={recipe._id}
-              item={recipe}
-              isFavourite={true}
-              onRemoveFavourite={handleRemoveFavourite}
-            />
-          ))
-        )}
-      </div>
+    <div className="d-flex flex-column min-vh-100">
+      <main className="container mt-5 flex-grow-1">
+        <h2>Favourite Recipes</h2>
+        <p>This is where your favourite recipes will appear.</p>
+
+        <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+          {favouriteRecipe?.length > 0 ? (
+            favouriteRecipe.map((item) => (
+              <RecipeItem key={item._id} item={item} onUnlike={handleUnlike} />
+            ))
+          ) : (
+            <p>No favourite recipes found.</p>
+          )}
+        </div>
+      </main>
+      <Footer />
     </div>
   );
-}
+};
 
 export default Favourite;

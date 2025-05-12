@@ -22,7 +22,7 @@ const teamMembers = [
     email: 'saitejagampa8@gmail.com',
     phone: '7658990750',
     address: 'Rajanna Sircilla, Telangana',
-    image: '/images/team3(1).png',
+    image: '/images/team3.png',
   },
 ];
 
