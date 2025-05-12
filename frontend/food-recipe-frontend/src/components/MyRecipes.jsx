@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAllRecipesFromApi, deleteRecipeFromApi } from "../services/recipeService";
+import {
+  getAllRecipesFromApi,
+  deleteRecipeFromApi,
+} from "../services/recipeService";
 import MyRecipeItems from "./myRecipeItems";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
@@ -21,7 +24,9 @@ const MyRecipes = () => {
       }
 
       const allRecipes = await getAllRecipesFromApi();
-      const userRecipes = allRecipes.filter(item => item.createdBy === user._id);
+      const userRecipes = allRecipes.filter(
+        (item) => item.createdBy === user._id
+      );
       setMyRecipes(userRecipes);
     } catch (error) {
       toast.error("Failed to fetch your recipes.");
@@ -33,7 +38,12 @@ const MyRecipes = () => {
       const response = await deleteRecipeFromApi(id);
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
-        setMyRecipes(prev => prev.filter(recipe => recipe._id !== id));
+        setMyRecipes((prev) => prev.filter((recipe) => recipe._id !== id));
+        let likeItem = JSON.parse(localStorage.getItem("likes")) || [];
+        if (Array.isArray(likeItem)) {
+          const updatedLikes = likeItem.filter((item) => item !== id);
+          localStorage.setItem("likes", JSON.stringify(updatedLikes));
+        }
       } else {
         toast.error("Something went wrong");
       }
@@ -48,7 +58,7 @@ const MyRecipes = () => {
 
   // Filter, Sort, and Paginate
   const filteredRecipes = myRecipes
-    .filter(recipe =>
+    .filter((recipe) =>
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
@@ -59,7 +69,10 @@ const MyRecipes = () => {
 
   const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
   const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
-  const currentRecipes = filteredRecipes.slice(startIndex, startIndex + RECIPES_PER_PAGE);
+  const currentRecipes = filteredRecipes.slice(
+    startIndex,
+    startIndex + RECIPES_PER_PAGE
+  );
 
   return (
     <div className="container mt-5">
@@ -90,19 +103,20 @@ const MyRecipes = () => {
       </div>
 
       {/* Recipe List */}
-      
+
       {currentRecipes.length === 0 ? (
         <p className="text-muted">No matching recipes found.</p>
       ) : (
         <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
-        {currentRecipes.map(item => (
-          
-          <MyRecipeItems key={item._id} item={item} deleteRecipe={deleteRecipe} />
-          
-        ))}
+          {currentRecipes.map((item) => (
+            <MyRecipeItems
+              key={item._id}
+              item={item}
+              deleteRecipe={deleteRecipe}
+            />
+          ))}
         </div>
       )}
-      
 
       {/* Pagination */}
       {totalPages > 1 && (
@@ -110,7 +124,9 @@ const MyRecipes = () => {
           {[...Array(totalPages)].map((_, idx) => (
             <button
               key={idx}
-              className={`btn me-2 ${currentPage === idx + 1 ? "btn-primary" : "btn-outline-primary"}`}
+              className={`btn me-2 ${
+                currentPage === idx + 1 ? "btn-primary" : "btn-outline-primary"
+              }`}
               onClick={() => setCurrentPage(idx + 1)}
             >
               {idx + 1}
