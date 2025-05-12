@@ -47,3 +47,18 @@ export async function getRecipeFromApi(id) {
   }
   
 }
+
+export async function updateRecipeInApi(id,recipeData){
+  try {
+    const response = await axios.put(url + "/recipe/" + id, recipeData, {
+      headers: {
+        'Content-Type' : 'multipart/form-data',
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+      }
+    });
+    console.log(response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}

@@ -45,6 +45,52 @@
   color: #db1414;
   cursor: pointer;
 }
+.b-none{
+    border: none;
+    border-color: #C5E1A5;
+    outline: none;
+}
+
+/* Scrolling Message Styling */
+.scrolling-message {
+  background-color: #f0f0f0;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 15px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-family: 'Poppins', sans-serif;
+}
+
+.scrolling-message p {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2F4F4F;
+  padding-left: 100%;
+  animation: scroll-left 18s linear infinite;
+  letter-spacing: 0.5px;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Footer Styling */
+.footer {
+  background-color: #C5E1A5; /* Light Green */
+  color: black;
+  padding: 15px 0;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 40px;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
 
 /* below code is for "Submit Recipe" button which is on "Add your recipe" form  */
 .share-btn1 {

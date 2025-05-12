@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
-import { url } from "../services/recipeService";
+import { url } from "../services/recipeService"; 
 import { toast } from "react-toastify";
 
 const AddFoodRecipe = () => {
@@ -9,13 +9,13 @@ const AddFoodRecipe = () => {
 
   const handleRecipeOnChange = (e) => {
     const value =
-      e.target.name === "ingredients"
-        ? e.target.value.split(",")
+      (e.target.name === "ingredients"
+        ? e.target.value
+        : e.target.name === "coverImage"
+        ? e.target.files[0]
         : e.target.name === "time"
-          ? String(e.target.value)
-          : e.target.name === "coverImage"
-            ? e.target.files[0]
-            : e.target.value;
+        ? String(e.target.value)
+        : e.target.value);
 
     setRecipedata((pre) => ({
       ...pre,
@@ -28,10 +28,10 @@ const AddFoodRecipe = () => {
     try {
       const formData = new FormData();
       formData.append("title", recipeData.title);
-      formData.append("ingredients", recipeData.ingredients.join(","));
+      formData.append("ingredients", recipeData.ingredients); 
       formData.append("instructions", recipeData.instructions);
       formData.append("time", recipeData.time);
-      formData.append("coverImage", recipeData.coverImage);
+      formData.append("coverImage", recipeData.coverImage); 
 
       const response = await axios.post(`${url}/recipe`, formData, {
         headers: {
