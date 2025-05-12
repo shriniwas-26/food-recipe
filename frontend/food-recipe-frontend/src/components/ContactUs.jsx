@@ -78,7 +78,7 @@ const ContactUs = () => {
                 <Form.Control as="textarea" rows={4} value={formData.message} name="message" onChange={handleChange} required placeholder="Write your message" />
               </Form.Group>
               <div className="btn-container">
-              <button disabled={isSubmitting || !isFormComplete} className="share-btn1">Send Message</button>
+                <button disabled={isSubmitting || !isFormComplete} className="share-btn1">Send Message</button>
               </div>
             </Form>
           </Col>

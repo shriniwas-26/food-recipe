@@ -9,7 +9,7 @@ const RecipeItem = ({ item, onUnlike }) => {
   useEffect(() => {
     const existingLikes = JSON.parse(localStorage.getItem("likes")) || [];
     setLiked(existingLikes.includes(item._id));
-  }, [item._id]);
+  }, [item.id]);
 
   const handleLike = () => {
     let existingLikes = JSON.parse(localStorage.getItem("likes")) || [];
