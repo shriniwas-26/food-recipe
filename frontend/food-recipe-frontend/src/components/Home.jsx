@@ -47,7 +47,7 @@ const Home = () => {
 
       {/* Optional Footer */}
       <div className="footer">
-        <p>&copy; 2025 Foodies. All rights reserved.</p>
+        <p>&copy; 2025 TastyBite. All rights reserved.</p>
       </div>
     </div>
   );

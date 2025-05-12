@@ -87,7 +87,7 @@ const ContactUs = () => {
               <Card.Body>
                 <Card.Title>Contact Information</Card.Title>
                 <Card.Text><strong>Phone:</strong> +91-9876543210</Card.Text>
-                <Card.Text><strong>Email:</strong> info@foodcity.com</Card.Text>
+                <Card.Text><strong>Email:</strong> info@tastybite.com</Card.Text>
                 <Card.Text><strong>Address:</strong> 123 Street, Kolhapur, Maharashtra</Card.Text>
               </Card.Body>
             </Card>

@@ -32,7 +32,7 @@ const AboutUs = () => {
       <Container className="my-5">
         <h2 className="text-center mb-4" style={{ color: '#ff4d30' }}>About Us</h2>
         <p className="text-center text-secondary mb-5">
-          Welcome to FoodieHeaven — your one-stop platform for discovering and sharing delicious homemade recipes.
+          Welcome to TastyBite — your one-stop platform for discovering and sharing delicious homemade recipes.
           Our mission is to bring joy through food and connect people over authentic culinary experiences.
         </p>
         <Row>

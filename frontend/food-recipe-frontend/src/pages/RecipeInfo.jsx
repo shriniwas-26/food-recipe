@@ -57,7 +57,7 @@ const RecipeInfo = () => {
       {/* Time */}
       <Row className="text-center mt-5">
         <Col>
-          <h4><strong>Time Required:</strong> {recipe.time}</h4>
+          <h4><strong>Time Required:</strong> {recipe.time} minutes</h4>
         </Col>
       </Row>
     </Container>
