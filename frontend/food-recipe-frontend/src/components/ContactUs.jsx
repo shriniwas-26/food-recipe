@@ -15,6 +15,8 @@ const ContactUs = () => {
     message: ''
   });
 
+  const [touched, setTouched] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -23,25 +25,44 @@ const ContactUs = () => {
     }));
   };
 
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
+
   function resetFormData() {
     setFormData({
       name: '',
       email: '',
       subject: '',
       message: ''
-    })
+    });
+    setTouched({});
   }
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isFieldInvalid = (field) => {
+    const value = formData[field].trim();
+    if (!touched[field]) return false;
+    if (field === 'email') return !validateEmail(value);
+    return value === '';
+  };
+
+  const isFormComplete = Object.values(formData).every(value => value.trim() !== '') && validateEmail(formData.email);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
       const response = await addFeedback(formData);
-      if (response.status == 201) {
+      if (response.status === 201) {
         toast.success("Feedback added successfully...");
         setIsSubmitting(false);
         resetFormData();
-        console.log(formData)
       } else {
         toast.error("Internal server error...");
         setIsSubmitting(false);
@@ -50,38 +71,87 @@ const ContactUs = () => {
       console.log(error);
       setIsSubmitting(false);
     }
-
-  }
-
-  const isFormComplete = Object.values(formData).every(value => value.trim() !== '');
+  };
 
   return (
     <>
       <Container className="my-5">
         <Row>
           <Col md={6}>
-            <Form onSubmit={handleOnSubmit}>
+            <Form onSubmit={handleOnSubmit} noValidate>
               <Form.Group controlId="name">
                 <Form.Label>Your Name</Form.Label>
-                <Form.Control type="text" value={formData.name} name="name" onChange={handleChange} required placeholder="Enter your name" />
+                <Form.Control
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={isFieldInvalid('name')}
+                  placeholder="Enter your name"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Name is required.
+                </Form.Control.Feedback>
               </Form.Group>
+
               <Form.Group controlId="email" className="mt-3">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" value={formData.email} name="email" onChange={handleChange} required placeholder="Enter email" />
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={isFieldInvalid('email')}
+                  placeholder="Enter email"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formData.email.trim() === '' ? 'Email is required.' : 'Enter a valid email address.'}
+                </Form.Control.Feedback>
               </Form.Group>
+
               <Form.Group controlId="subject" className="mt-3">
                 <Form.Label>Subject</Form.Label>
-                <Form.Control type="text" value={formData.subject} name="subject" onChange={handleChange} required placeholder="Brief summary of your message" />
+                <Form.Control
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={isFieldInvalid('subject')}
+                  placeholder="Brief summary of your message"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Subject is required.
+                </Form.Control.Feedback>
               </Form.Group>
+
               <Form.Group controlId="message" className="mt-3">
                 <Form.Label>Message</Form.Label>
-                <Form.Control as="textarea" rows={4} value={formData.message} name="message" onChange={handleChange} required placeholder="Write your message" />
+                <Form.Control
+                  as="textarea"
+                  rows={4}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={isFieldInvalid('message')}
+                  placeholder="Write your message"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Message is required.
+                </Form.Control.Feedback>
               </Form.Group>
-              <div className="btn-container">
-                <button disabled={isSubmitting || !isFormComplete} className="share-btn1">Send Message</button>
+
+              <div className="btn-container mt-4">
+                <button disabled={isSubmitting || !isFormComplete} className="share-btn1">
+                  Send Message
+                </button>
               </div>
             </Form>
           </Col>
+
           <Col md={6}>
             <Card className="shadow-lg border-0 about-card">
               <Card.Body>
