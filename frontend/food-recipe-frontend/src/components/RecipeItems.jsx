@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getAllRecipesFromApi } from "../services/recipeService";
+import { getAllRecipesFromApi } from "../services/recipeService.js";
+import food from '../assets/food.png';
 import { RiTimerFill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
-import '../components/recipeItems.css';
-import food from "../assets/food.png";
-
+import './recipeItems.css';
+import { Link } from "react-router-dom";
+import RecipeItem from "./recipeItem.jsx";
 
 const RecipeItems = () => {
   const [allRecipes, setAllRecipes] = useState([]);
 
   const getAllRecipes = async () => {
-    const recipes = await getAllRecipesFromApi();
-    console.log(recipes);
-    setAllRecipes(recipes);
+    try {
+      const response = await getAllRecipesFromApi();
+      setAllRecipes(response);
+    } catch (error) {
+      console.log("Error fetching recipes:", error);
+    }
   };
 
   useEffect(() => {
@@ -20,22 +24,19 @@ const RecipeItems = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-wrap justify-content-center justify-content-lg-start ">
-      {allRecipes?.map((item, index) => {
-        return(
-        <div key={index} className="card m-3 align-items-center" style={{ width: "15rem" }}>
-          <img src={food} className="card-img-top" style={{ height: "150px", width: "150px" }} alt="..." />
-          <div className="card-body w-100 d-flex flex-column justify-content-between bg-light-green">
-            <h5 className="card-title fs-5 text-center">{ item.title }</h5>
-            <div className="d-flex justify-content-between m-3">
-              <div><RiTimerFill /></div>
-              <div><FaHeart /></div>
-            </div>
-          </div>
+    <>
+      {allRecipes.length > 0 && (
+        <div className="container d-flex justify-content-center justify-content-lg-start">
+          <h1 className="m-3">All Recipes</h1>
         </div>
-        )
-      })}
-    </div>
+      )}
+
+      <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+        {allRecipes.length > 0 ? (
+          allRecipes.map((item) => <RecipeItem key={item._id} item={item} />)
+        ) : null}
+      </div>
+    </>
   );
 };
 

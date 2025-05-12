@@ -1,91 +1,126 @@
-import { Alert, Button, Col, Container, Row } from "react-bootstrap";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {
+    Alert,
+    Button,
+    Col,
+    Container,
+    Form,
+    Row,
+    Spinner,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../services/userService";
 import { loginSchema } from "../validation-schemas/LoginSchema";
-import "../assets/styles/signupstyle.css"; // reuse same styles
+import { Formik, Field, ErrorMessage } from "formik";
+import '../assets/styles/signupstyle.css'; // adjust path based on actual location
 
-export function UserLogin() {
-  const navigate = useNavigate();
+function LoginPage() {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
-  const initialValues = {
-    email: "",
-    password: "",
-  };
+    const initialValues = {
+        email: '',
+        password: ''
+    };
 
-  const handleSubmit = (values) => {
-    console.log("Login form submitted:", values);
-    toast.success("Login successful!");
-    navigate("/dashboard"); // redirect to dashboard or homepage
-  };
+    const handleSubmit = async (values, { setSubmitting }) => {
+        try {
+            setLoading(true);
+            const response = await login(values);
 
-  const goToSignup = () => {
-    navigate("/signup");
-  };
+            if (response.status === 200) {
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                toast.success("Login successful!");
+                navigate("/");
+            }
+        } catch (error) {
+            console.log(error);
+            if (error.response?.status === 400) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("Something went wrong...!");
+            }
+        } finally {
+            setLoading(false);
+            setSubmitting(false);
+        }
+    };
 
-  return (
-    <Container className="mt-5">
-      <Row className="justify-content-center">
-        <Col md={6} lg={5}>
-          <Alert variant="success">
-            <h4 className="text-center">Login to Food Recipe App</h4>
-          </Alert>
-          <p>
-            Don’t have an account?{" "}
-            <Button variant="primary" onClick={goToSignup}>
-              Sign Up Now
-            </Button>
-          </p>
+    return (
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100">
+            <div className="signup-box p-4 rounded shadow-sm bg-white w-100" style={{ maxWidth: '500px' }}>
+                <Alert variant="success" className="mb-3 text-center">
+                    <h4>Login page</h4>
+                </Alert>
 
-          <Formik
-            initialValues={initialValues}
-            validationSchema={loginSchema}
-            onSubmit={handleSubmit}
-          >
-            {(formik) => {
-              const { isValid, dirty } = formik;
-              return (
-                <Form>
-                  <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <Field
-                      type="email"
-                      name="email"
-                      placeholder="Enter email"
-                      className="form-control"
-                    />
-                    <ErrorMessage name="email" component="span" className="error" />
-                  </div>
+                <p className="text-center mb-4">
+                    Need an account?
+                    <Link to="/signup" className="ms-2 text-primary fw-semibold">
+                        Create an account
+                    </Link>
+                </p>
 
-                  <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <Field
-                      type="password"
-                      name="password"
-                      placeholder="Enter password"
-                      className="form-control"
-                    />
-                    <ErrorMessage name="password" component="span" className="error" />
-                  </div>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={loginSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ handleSubmit, isValid, dirty }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label className="form-label">Email</label>
+                                <Field
+                                    type="email"
+                                    name="email"
+                                    className="form-control"
+                                    placeholder="Enter your email"
+                                />
+                                <ErrorMessage name="email" component="div" className="text-danger small" />
+                            </div>
 
-                  <div className="d-flex justify-content-center">
-                    <Button
-                      type="submit"
-                      variant="success"
-                      className="w-50"
-                      // disabled={!(dirty && isValid)}
-                    >
-                      Login
-                    </Button>
-                  </div>
-                </Form>
-              );
-            }}
-          </Formik>
-        </Col>
-      </Row>
-    </Container>
-  );
+                            <div className="mb-4">
+                                <label className="form-label">Password</label>
+                                <Field
+                                    type="password"
+                                    name="password"
+                                    className="form-control"
+                                    placeholder="Enter your password"
+                                />
+                                <ErrorMessage name="password" component="div" className="text-danger small" />
+                            </div>
+
+                            <div className="d-flex justify-content-center">
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    className="w-50 mt-2"
+                                    disabled={loading || !(dirty && isValid)}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                                className="me-2"
+                                            />
+                                            Logging in...
+                                        </>
+                                    ) : (
+                                        "Login"
+                                    )}
+                                </Button>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+            </div>
+        </Container>
+    );
 }
 
-export default UserLogin;
+export default LoginPage;
