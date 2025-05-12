@@ -40,13 +40,13 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/favourite" element={<Favourite />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route element={<PrivateRoute />}>
             <Route path="/editRecipe/:id" element={<EditFoodRecipe />} />
             <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
             <Route path="/myrecipes" element={<MyRecipes />} />
             <Route path="/addRecipe" element={<AddFoodRecipe />} />
-            <Route path="/favourite" element={<Favourite />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

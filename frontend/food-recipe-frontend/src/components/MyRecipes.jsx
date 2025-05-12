@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { getAllRecipesFromApi, deleteRecipeFromApi } from "../services/recipeService";
 import MyRecipeItems from "./myRecipeItems";
 import { toast } from "react-toastify";
+import { Container, Button, Modal, Form } from "react-bootstrap";
 
 const RECIPES_PER_PAGE = 5;
 
 const MyRecipes = () => {
   const [myRecipes, setMyRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("asc"); // "asc" or "desc"
+  const [sortBy, setSortBy] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
+  const [dialogVisibility, setDialogVisibility] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] = useState();
 
   const getMyRecipes = async () => {
     try {
@@ -18,7 +21,6 @@ const MyRecipes = () => {
         toast.error("User not found. Please log in again.");
         return;
       }
-
       const allRecipes = await getAllRecipesFromApi();
       const userRecipes = allRecipes.filter(item => item.createdBy === user._id);
       setMyRecipes(userRecipes);
@@ -27,12 +29,21 @@ const MyRecipes = () => {
     }
   };
 
-  const deleteRecipe = async (id) => {
+  useEffect(() => {
+    getMyRecipes();
+  }, []);
+
+  const closeDialog = () => {
+    setDialogVisibility(false);
+  };
+
+  const handleRecipeDelete = async () => {
     try {
-      const response = await deleteRecipeFromApi(id);
+      const response = await deleteRecipeFromApi(selectedRecipeId);
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
-        setMyRecipes(prev => prev.filter(recipe => recipe._id !== id));
+        setMyRecipes(prev => prev.filter(recipe => recipe._id !== selectedRecipeId));
+        closeDialog();
       } else {
         toast.error("Something went wrong");
       }
@@ -41,35 +52,28 @@ const MyRecipes = () => {
     }
   };
 
-  useEffect(() => {
-    getMyRecipes();
-  }, []);
-
-  // Filter, Sort, and Paginate
   const filteredRecipes = myRecipes
     .filter(recipe =>
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .sort((a, b) => {
-      return sortBy === "asc"
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
-    });
+    .sort((a, b) =>
+      sortBy === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
+    );
 
   const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
   const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
   const currentRecipes = filteredRecipes.slice(startIndex, startIndex + RECIPES_PER_PAGE);
 
   return (
-    <div className="container mt-5">
+    <Container className="mt-5">
       <h2>My Recipes</h2>
       <p>This is where your saved recipes will appear.</p>
 
-      {/* Search and Sort Controls */}
+      {/* Search and Sort */}
       <div className="d-flex justify-content-between mb-3">
-        <input
+        <Form.Control
           type="text"
-          className="form-control w-50 me-2"
+          className="w-50 me-2"
           placeholder="Search by title..."
           value={searchTerm}
           onChange={(e) => {
@@ -78,40 +82,66 @@ const MyRecipes = () => {
           }}
         />
 
-        <select
-          className="form-select w-25"
+        <Form.Select
+          className="w-25"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
           <option value="asc">Sort by Name: A-Z</option>
           <option value="desc">Sort by Name: Z-A</option>
-        </select>
+        </Form.Select>
       </div>
 
       {/* Recipe List */}
       {currentRecipes.length === 0 ? (
         <p className="text-muted">No matching recipes found.</p>
       ) : (
-        currentRecipes.map(item => (
-          <MyRecipeItems key={item._id} item={item} deleteRecipe={deleteRecipe} />
-        ))
+        <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+          {currentRecipes.map(item => (
+            <MyRecipeItems
+              key={item._id}
+              item={item}
+              deleteRecipe={() => {
+                setSelectedRecipeId(item._id);
+                setDialogVisibility(true);
+              }}
+            />
+          ))}
+        </div>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="d-flex justify-content-center mt-4">
           {[...Array(totalPages)].map((_, idx) => (
-            <button
+            <Button
               key={idx}
-              className={`btn me-2 ${currentPage === idx + 1 ? "btn-primary" : "btn-outline-primary"}`}
+              variant={currentPage === idx + 1 ? "primary" : "outline-primary"}
+              className="me-2"
               onClick={() => setCurrentPage(idx + 1)}
             >
               {idx + 1}
-            </button>
+            </Button>
           ))}
         </div>
       )}
-    </div>
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={dialogVisibility} onHide={closeDialog} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this recipe?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleRecipeDelete}>
+            Yes
+          </Button>
+          <Button variant="danger" onClick={closeDialog}>
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Container>
   );
 };
 

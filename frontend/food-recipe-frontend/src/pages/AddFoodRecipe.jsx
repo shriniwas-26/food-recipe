@@ -9,13 +9,13 @@ const AddFoodRecipe = () => {
 
   const handleRecipeOnChange = (e) => {
     const value =
-      e.target.name === "ingredients"
-        ? e.target.value.split(",") 
+      (e.target.name === "ingredients"
+        ? e.target.value
+        : e.target.name === "coverImage"
+        ? e.target.files[0]
         : e.target.name === "time"
         ? String(e.target.value)
-        : e.target.name === "coverImage"
-        ? e.target.files[0] 
-        : e.target.value;
+        : e.target.value);
 
     setRecipedata((pre) => ({
       ...pre,
@@ -28,7 +28,7 @@ const AddFoodRecipe = () => {
     try {
       const formData = new FormData();
       formData.append("title", recipeData.title);
-      formData.append("ingredients", recipeData.ingredients.join(",")); 
+      formData.append("ingredients", recipeData.ingredients); 
       formData.append("instructions", recipeData.instructions);
       formData.append("time", recipeData.time);
       formData.append("coverImage", recipeData.coverImage); 
@@ -36,12 +36,19 @@ const AddFoodRecipe = () => {
       const response = await axios.post(`${url}/recipe`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": "Bearer " + localStorage.getItem("token")
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
 
       if (response.status === 201 || response.status === 200) {
         toast.success("Recipe added to the database successfully...");
+        setRecipedata({
+          title: "",
+          ingredients: "",
+          instructions: "",
+          time: "",
+          coverImage: null,
+        });
       } else {
         toast.error("Something went wrong");
       }
@@ -56,7 +63,9 @@ const AddFoodRecipe = () => {
       <div className="shadow p-4 bg-white rounded col-11 col-md-8">
         <div className="text-center mb-4">
           <h1 className="fw-bold">Add Your Recipe</h1>
-          <p className="text-muted">Share your delicious creations with the world!</p>
+          <p className="text-muted">
+            Share your delicious creations with the world!
+          </p>
         </div>
         <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
           <div className="mb-3">
@@ -67,6 +76,7 @@ const AddFoodRecipe = () => {
               type="text"
               id="title"
               name="title"
+              value={recipeData.title}
               className="form-control"
               placeholder="Enter recipe title"
               onChange={handleRecipeOnChange}
@@ -81,6 +91,7 @@ const AddFoodRecipe = () => {
             <textarea
               id="ingredients"
               name="ingredients"
+              value={recipeData.ingredients}
               className="form-control"
               rows="3"
               placeholder="List ingredients (separated by commas)"
@@ -96,6 +107,7 @@ const AddFoodRecipe = () => {
             <textarea
               id="instructions"
               name="instructions"
+              value={recipeData.instructions}
               className="form-control"
               rows="4"
               placeholder="Enter cooking instructions"
@@ -112,6 +124,7 @@ const AddFoodRecipe = () => {
               type="number"
               id="timer"
               name="time"
+              value={recipeData.time}
               className="form-control"
               placeholder="Enter cooking time"
               onChange={handleRecipeOnChange}

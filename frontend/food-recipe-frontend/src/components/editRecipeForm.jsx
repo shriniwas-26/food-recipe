@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { updateRecipeInApi, getRecipeFromApi } from "../services/recipeService";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "../assets/styles/EditFoodRecipe.css";
 
 const EditFoodRecipe = () => {
@@ -86,7 +87,7 @@ const EditFoodRecipe = () => {
               <h1 className="fw-bold">Edit Your Recipe</h1>
               <p className="text-muted">Update your delicious creation!</p>
             </div>
-            <form onSubmit={handleRecipeOnSubmit} encType="multipart/form-data">
+            <form onSubmit={handleRecipeOnSubmit} >
               <div className="row mb-3">
                 <div className="col-md-6 mb-3">
                   <label htmlFor="title" className="form-label">Recipe Title</label>
@@ -107,7 +108,7 @@ const EditFoodRecipe = () => {
                     id="ingredients"
                     name="ingredients"
                     className="form-control"
-                    value={recipeData.ingredients.join(", ")}
+                    value={recipeData.ingredients}
                     onChange={handleRecipeOnChange}
                     placeholder="e.g., Flour, Sugar, Eggs"
                     required
@@ -116,7 +117,9 @@ const EditFoodRecipe = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="instructions" className="form-label">Instructions</label>
+                <label htmlFor="instructions" className="form-label">
+                  Instructions
+                </label>
                 <textarea
                   id="instructions"
                   name="instructions"

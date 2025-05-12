@@ -22,7 +22,7 @@ const teamMembers = [
     email: 'saitejagampa8@gmail.com',
     phone: '7658990750',
     address: 'Rajanna Sircilla, Telangana',
-    image: '/images/team3.jpg',
+    image: '/images/team3(1).png',
   },
 ];
 
@@ -45,7 +45,7 @@ const AboutUs = () => {
                   src={member.image}
                   alt={member.name}
                   className="img-fluid"
-                  style={{ width: '300px', height: '300px', objectFit: 'cover', margin: 'auto', paddingTop: '10px' }}
+                  style={{ width: '300px', height: '400px', objectFit: 'cover', margin: 'auto', paddingTop: '10px' }}
                 />
                 <Card.Body>
                   <Card.Title>{member.name}</Card.Title>

@@ -44,6 +44,7 @@ export async function addRecipe(request, response) {
         response.status(StatusCodes.BAD_REQUEST).send({ message: "Required fields cant be empty" });
     } else {
         try {
+
             let ingredientsArr = data.ingredients.split(",");
             const newRecipe = await recipeModel.create({
                 title: data.title, ingredients: ingredientsArr, instructions: data.instructions, time: data.time + "", coverImage: request.file.filename, createdBy: request.user.id
@@ -98,7 +99,7 @@ export async function editRecipe(request, response) {
 
         response.status(StatusCodes.OK).send({ message: "Recipe updated successfully", recipe: updatedRecipe });
     } catch (error) {
-        console.error("Error in editRecipe:", error);
+        console.log("Error in editRecipe:", error);
         response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "Something went wrong" });
     }
 }
