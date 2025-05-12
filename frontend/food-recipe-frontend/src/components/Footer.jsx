@@ -11,7 +11,7 @@ const Footer = () => {
             <Container>
                 <Row>
                     <Col md={4}>
-                        <h5>About FoodieHeaven</h5>
+                        <h5>About TastyBite</h5>
                         <p>Discover and share delicious homemade recipes. Bringing people together through the love of food.</p>
                     </Col>
                     <Col md={4}>
@@ -38,7 +38,7 @@ const Footer = () => {
                     </Col>
                 </Row>
                 <hr className="bg-light" />
-                <p className="text-center mb-0">&copy; 2025 FoodieHeaven. All rights reserved.</p>
+                <p className="text-center mb-0">&copy; 2025 TastyBite. All rights reserved.</p>
             </Container>
         </footer>
     );

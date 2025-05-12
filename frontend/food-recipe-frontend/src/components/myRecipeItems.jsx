@@ -47,7 +47,7 @@ const MyRecipeItems = ({ item, deleteRecipe }) => {
                 </Link>
                 <div className="d-flex justify-content-between m-3">
                   <div>
-                    <RiTimerFill /> <span> {item.time} </span>
+                    <RiTimerFill /> <span> {item.time} mins</span>
                   </div>
                   <div>
                     {/* Edit & Delete Icons */}
