@@ -99,7 +99,7 @@ export async function editRecipe(request, response) {
 
         response.status(StatusCodes.OK).send({ message: "Recipe updated successfully", recipe: updatedRecipe });
     } catch (error) {
-        console.error("Error in editRecipe:", error);
+        console.log("Error in editRecipe:", error);
         response.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "Something went wrong" });
     }
 }
