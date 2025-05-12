@@ -27,10 +27,10 @@ function SignupPage() {
                 localStorage.setItem("user", JSON.stringify(response.data.user));
 
                 toast.success("User Registered Successfully");
-                navigate("/dashboard");
+                navigate("/");
             }
         } catch (error) {
-            console.error(error);
+            console.log(error);
             toast.error("Something went wrong");
         } finally {
             setSubmitting(false);
