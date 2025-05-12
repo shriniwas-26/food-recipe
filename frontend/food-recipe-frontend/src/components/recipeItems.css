@@ -122,7 +122,7 @@
 /* below program is for background image as a wallpaper but didn't used */
 
 .page-background {
-  background-image: url('./assets/wallpaper.jpg'); /* Adjust the path */
+  background-image: url('../../public/images/bg_image.jpg'); /* Adjust the path */
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
