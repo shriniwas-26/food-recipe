@@ -38,9 +38,6 @@ const Home = () => {
         </Row>
       </Container>
 
-      <Container className="d-flex justify-content-center justify-content-lg-start">
-        <h1 className="m-3 recipe-title">All Recipes</h1>
-      </Container>
 
       <Container>
         <div className="recipe-items">

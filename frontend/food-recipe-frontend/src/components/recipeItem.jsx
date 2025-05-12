@@ -3,40 +3,36 @@ import { FaHeart } from "react-icons/fa";
 import { RiTimerFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 
-const RecipeItem = ({item}) => {
+const RecipeItem = ({ item, onUnlike }) => {
   const [liked, setLiked] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if this item is already liked on mount
-    const existingLikes = JSON.parse(localStorage.getItem('likes')) || [];
+    const existingLikes = JSON.parse(localStorage.getItem("likes")) || [];
     setLiked(existingLikes.includes(item._id));
   }, [item._id]);
 
   const handleLike = () => {
-    let existingLikes = JSON.parse(localStorage.getItem('likes')) || [];
+    let existingLikes = JSON.parse(localStorage.getItem("likes")) || [];
 
     if (existingLikes.includes(item._id)) {
-      // Unlike: remove the ID
-      existingLikes = existingLikes.filter(_id => _id !== item._id);
+      // Unlike
+      existingLikes = existingLikes.filter((id) => id !== item._id);
       setLiked(false);
+      localStorage.setItem("likes", JSON.stringify(existingLikes));
+
+      if (onUnlike) {
+        onUnlike(item._id); // notify parent to remove this card
+      }
     } else {
-      // Like: add the ID
+      // Like
       existingLikes.push(item._id);
       setLiked(true);
+      localStorage.setItem("likes", JSON.stringify(existingLikes));
     }
-
-    localStorage.setItem('likes', JSON.stringify(existingLikes));
-
   };
 
   return (
-    <div
-      key={item._id}
-      className="card m-3 align-items-center "
-      style={{ width: "15rem" }}
-    >
-      {/* You don't need to import url, use the base URL directly */}
+    <div className="card m-3 align-items-center" style={{ width: "15rem" }}>
       <Link
         to={`/recipeDetails/${item._id}`}
         className="w-100"
@@ -56,18 +52,17 @@ const RecipeItem = ({item}) => {
           to={`/recipeDetails/${item._id}`}
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <h5 className="card-title fs-5 text-center text-decoration-none">
-            {item.title}
-          </h5>
+          <h5 className="card-title fs-5 text-center">{item.title}</h5>
         </Link>
         <div className="d-flex justify-content-between m-3">
-          <div className="text-decoration-none">
+          <div>
             <RiTimerFill /> <span>{item.time}</span>
           </div>
           <div>
             <FaHeart
               onClick={handleLike}
               className={liked ? "text-danger" : "text-black"}
+              style={{ cursor: "pointer" }}
             />
           </div>
         </div>

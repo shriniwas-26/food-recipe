@@ -7,7 +7,7 @@ const teamMembers = [
     name: 'Satyajeet Khamkar',
     email: 'khamkarsatyajeet190401@gmail.com',
     phone: '7378750403',
-    address: 'Padali, Kolhapur, Maharashtra',
+    address: 'Kolhapur, Maharashtra',
     image: '/images/team1.jpg',
   },
   {
@@ -30,7 +30,7 @@ const AboutUs = () => {
   return (
     <>
       <Container className="my-5">
-        <h2 className="text-center text-info mb-4">About Us</h2>
+        <h2 className="text-center mb-4" style={{ color: '#ff4d30' }}>About Us</h2>
         <p className="text-center text-secondary mb-5">
           Welcome to FoodieHeaven — your one-stop platform for discovering and sharing delicious homemade recipes.
           Our mission is to bring joy through food and connect people over authentic culinary experiences.
@@ -48,7 +48,7 @@ const AboutUs = () => {
                   style={{ width: '300px', height: '300px', objectFit: 'cover', margin: 'auto', paddingTop: '10px' }}
                 />
                 <Card.Body>
-                  <Card.Title>{member.name}</Card.Title>
+                  <Card.Title className='text-center'>{member.name}</Card.Title>
                   <Card.Text>
                     <strong>Email:</strong> {member.email}<br />
                     <strong>Phone:</strong> {member.phone}<br />

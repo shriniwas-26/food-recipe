@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllRecipesFromApi, deleteRecipeFromApi } from "../services/recipeService";
 import MyRecipeItems from "./myRecipeItems";
 import { toast } from "react-toastify";
+import Footer from "../components/Footer";
 
 const RECIPES_PER_PAGE = 5;
 

@@ -146,12 +146,16 @@ const AddFoodRecipe = () => {
             />
           </div>
 
-          <button
+          <div className="btn-container">
+            <button className="share-btn1">Submit Recipe</button>
+          </div>
+
+          {/* <button
             type="submit"
-            className="bg-light-green text-black rounded-3 outline-none p-2 b-none w-100"
+            className="share-btn1"
           >
             Submit Recipe
-          </button>
+          </button> */}
         </form>
       </div>
     </div>

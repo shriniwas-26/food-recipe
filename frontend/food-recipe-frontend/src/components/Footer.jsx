@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import "../components/recipeItems.css";
+import './NavigationBar.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -15,21 +17,21 @@ const Footer = () => {
                     <Col md={4}>
                         <h5>Quick Links</h5>
                         <ul className="list-unstyled">
-                            <li><a href="/about" className="text-dark">About Us</a></li>
-                            <li><a href="/contact" className="text-dark">Contact Us</a></li>
-                            <li><a href="/recipes" className="text-dark">Recipes</a></li>
+                            <li><Link to="/AboutUs" className="footer-link">About Us</Link></li>
+                            <li><Link to="/ContactUs" className="footer-link">Contact Us</Link></li>
+                            <li><Link to="/MyRecipes" className="footer-link">Recipes</Link></li>
                         </ul>
                     </Col>
                     <Col md={4}>
                         <h5>Follow Us</h5>
                         <p>
-                            <a href="#" className="text-dark me-3">
+                            <a href="https://www.facebook.com" target='_blank' className="footer-link">
                                 <FaFacebook className="me-1" /> Facebook
                             </a><br />
-                            <a href="#" className="text-dark me-3">
+                            <a href="https://www.instagram.com" target='_blank' className="footer-link">
                                 <FaInstagram className="me-1" /> Instagram
                             </a><br />
-                            <a href="#" className="text-dark">
+                            <a href="https://www.twitter.com" target='_blank' className="footer-link">
                                 <FaTwitter className="me-1" /> Twitter
                             </a>
                         </p>
