@@ -52,7 +52,7 @@ button.btn-primary:disabled {
 }
 
 .bg-image {
-  background-image: url('../../../public/images/bg8.jpeg');
+  background-image: url('../back.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
