@@ -84,7 +84,7 @@ const EditFoodRecipe = () => {
         <div className="col-12 col-md-10 col-lg-8">
           <div className="shadow p-4 bg-white rounded">
             <div className="text-center mb-4">
-              <h1 className="fw-bold">Edit Your Recipe</h1>
+              <h1 className="fw-bold"style={{ color: '#ff4d30' }}>Edit Your Recipe</h1>
               <p className="text-muted">Update your delicious creation!</p>
             </div>
             <form onSubmit={handleRecipeOnSubmit} >
@@ -158,8 +158,8 @@ const EditFoodRecipe = () => {
               </div>
 
               <div className="text-center">
-                <button type="submit" className="btn btn-success w-50 btn-animated">
-                  Save
+                <button type="submit" className="share-btn1">
+                  Save Changes
                 </button>
               </div>
             </form>

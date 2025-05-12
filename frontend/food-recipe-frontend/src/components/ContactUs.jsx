@@ -75,6 +75,7 @@ const ContactUs = () => {
 
   return (
     <>
+      <h2 className="text-center mt-4" style={{ color: '#ff4d30' }}>Contact Us</h2>
       <Container className="my-5">
         <Row>
           <Col md={6}>
