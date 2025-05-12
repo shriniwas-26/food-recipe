@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../components/recipeItems.css";
 import axios from "axios";
-import { url } from "../services/recipeService"; 
+import { url } from "../services/recipeService";
 import { toast } from "react-toastify";
 
 const AddFoodRecipe = () => {
   const [recipeData, setRecipedata] = useState({});
+  const fileInputRef = useRef(null); // Reference to file input
 
   const handleRecipeOnChange = (e) => {
     const value =
-      (e.target.name === "ingredients"
+      e.target.name === "ingredients"
         ? e.target.value
         : e.target.name === "coverImage"
         ? e.target.files[0]
         : e.target.name === "time"
         ? String(e.target.value)
-        : e.target.value);
+        : e.target.value;
 
     setRecipedata((pre) => ({
       ...pre,
@@ -28,10 +29,10 @@ const AddFoodRecipe = () => {
     try {
       const formData = new FormData();
       formData.append("title", recipeData.title);
-      formData.append("ingredients", recipeData.ingredients); 
+      formData.append("ingredients", recipeData.ingredients);
       formData.append("instructions", recipeData.instructions);
       formData.append("time", recipeData.time);
-      formData.append("coverImage", recipeData.coverImage); 
+      formData.append("coverImage", recipeData.coverImage);
 
       const response = await axios.post(`${url}/recipe`, formData, {
         headers: {
@@ -42,6 +43,8 @@ const AddFoodRecipe = () => {
 
       if (response.status === 201 || response.status === 200) {
         toast.success("Recipe added to the database successfully...");
+
+        // Clear state
         setRecipedata({
           title: "",
           ingredients: "",
@@ -49,6 +52,11 @@ const AddFoodRecipe = () => {
           time: "",
           coverImage: null,
         });
+
+        // Manually clear the file input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = null;
+        }
       } else {
         toast.error("Something went wrong");
       }
@@ -62,7 +70,7 @@ const AddFoodRecipe = () => {
     <div className="container row ms-auto me-auto mt-5 mb-5 d-flex justify-content-center">
       <div className="shadow p-4 bg-white rounded col-11 col-md-8">
         <div className="text-center mb-4">
-          <h1 className="fw-bold">Add Your Recipe</h1>
+          <h1 className="fw-bold" style={{ color: '#ff4d30' }}>Add Your Recipe</h1>
           <p className="text-muted">
             Share your delicious creations with the world!
           </p>
@@ -142,6 +150,7 @@ const AddFoodRecipe = () => {
               name="coverImage"
               className="form-control"
               onChange={handleRecipeOnChange}
+              ref={fileInputRef} // Attach ref here
               required
             />
           </div>
@@ -149,13 +158,6 @@ const AddFoodRecipe = () => {
           <div className="btn-container">
             <button className="share-btn1">Submit Recipe</button>
           </div>
-
-          {/* <button
-            type="submit"
-            className="share-btn1"
-          >
-            Submit Recipe
-          </button> */}
         </form>
       </div>
     </div>
