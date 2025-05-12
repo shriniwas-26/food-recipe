@@ -38,9 +38,6 @@ const Home = () => {
         </Row>
       </Container>
 
-      <Container className="d-flex justify-content-center justify-content-lg-start">
-        <h1 className="m-3 recipe-title">All Recipes</h1>
-      </Container>
 
       <Container>
         <div className="recipe-items">
@@ -50,7 +47,7 @@ const Home = () => {
 
       {/* Optional Footer */}
       <div className="footer">
-        <p>&copy; 2025 Foodies. All rights reserved.</p>
+        <p>&copy; 2025 TastyBite. All rights reserved.</p>
       </div>
     </div>
   );

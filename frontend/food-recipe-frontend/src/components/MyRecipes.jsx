@@ -3,6 +3,7 @@ import { getAllRecipesFromApi, deleteRecipeFromApi } from "../services/recipeSer
 import MyRecipeItems from "./myRecipeItems";
 import { toast } from "react-toastify";
 import { Container, Button, Modal, Form } from "react-bootstrap";
+import Footer from "../components/Footer";
 
 const RECIPES_PER_PAGE = 5;
 
@@ -93,6 +94,7 @@ const MyRecipes = () => {
       </div>
 
       {/* Recipe List */}
+      
       {currentRecipes.length === 0 ? (
         <p className="text-muted">No matching recipes found.</p>
       ) : (
@@ -109,6 +111,7 @@ const MyRecipes = () => {
           ))}
         </div>
       )}
+      
 
       {/* Pagination */}
       {totalPages > 1 && (
