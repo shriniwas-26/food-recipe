@@ -59,9 +59,6 @@ export function NavigationBar() {
                 </LinkContainer>
               </>
             )}
-            <LinkContainer to="/dashboard">
-              <Nav.Link>Dashboard</Nav.Link>
-            </LinkContainer>
             <LinkContainer to="/contactus">
               <Nav.Link className="nav-link">Contact Us</Nav.Link>
             </LinkContainer>

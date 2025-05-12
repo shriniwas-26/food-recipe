@@ -90,13 +90,19 @@ const MyRecipes = () => {
       </div>
 
       {/* Recipe List */}
+      
       {currentRecipes.length === 0 ? (
         <p className="text-muted">No matching recipes found.</p>
       ) : (
-        currentRecipes.map(item => (
+        <div className="d-flex flex-wrap justify-content-center justify-content-lg-start">
+        {currentRecipes.map(item => (
+          
           <MyRecipeItems key={item._id} item={item} deleteRecipe={deleteRecipe} />
-        ))
+          
+        ))}
+        </div>
       )}
+      
 
       {/* Pagination */}
       {totalPages > 1 && (

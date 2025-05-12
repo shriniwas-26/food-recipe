@@ -23,7 +23,7 @@ const MyRecipeItems = ({ item, deleteRecipe }) => {
             <div
               key={item._id}
               className="card m-3 align-items-center"
-              style={{ width: "15rem" }}
+              style={{ width: "15rem", height: "310px" }}
             >
               <Link
                 to={`/recipeDetails/${item._id}`}
