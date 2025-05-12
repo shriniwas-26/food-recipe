@@ -44,7 +44,7 @@ export async function addRecipe(request, response) {
         response.status(StatusCodes.BAD_REQUEST).send({ message: "Required fields cant be empty" });
     } else {
         try {
-            
+
             let ingredientsArr = data.ingredients.split(",");
             const newRecipe = await recipeModel.create({
                 title: data.title, ingredients: ingredientsArr, instructions: data.instructions, time: data.time + "", coverImage: request.file.filename, createdBy: request.user.id

@@ -38,7 +38,7 @@ function SignupPage() {
     };
 
     return (
-        <Container fluid className="d-flex justify-content-center align-items-center vh-100">
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100 bg-image">
             <div className="signup-box p-4 rounded shadow-sm bg-white w-100" style={{ maxWidth: "600px" }}>
                 <Alert variant="success" className="text-center">
                     <h4>Signup Page</h4>
