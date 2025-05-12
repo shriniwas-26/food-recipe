@@ -6,14 +6,20 @@ import {
 import MyRecipeItems from "./myRecipeItems";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
+import { Modal, Button } from "react-bootstrap";
 
 const RECIPES_PER_PAGE = 5;
 
 const MyRecipes = () => {
   const [myRecipes, setMyRecipes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("asc"); // "asc" or "desc"
+  const [sortBy, setSortBy] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Modal states
+  const [dialogVisibility, setDialogVisibility] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+  const [selectedRecipeTitle, setSelectedRecipeTitle] = useState("");
 
   const getMyRecipes = async () => {
     try {
@@ -33,15 +39,18 @@ const MyRecipes = () => {
     }
   };
 
-  const deleteRecipe = async (id) => {
+  const handleDelete = async () => {
     try {
-      const response = await deleteRecipeFromApi(id);
+      const response = await deleteRecipeFromApi(selectedRecipeId);
       if (response.status === 200) {
         toast.success("Recipe deleted successfully");
-        setMyRecipes((prev) => prev.filter((recipe) => recipe._id !== id));
-        let likeItem = JSON.parse(localStorage.getItem("likes")) || [];
+        setMyRecipes((prev) =>
+          prev.filter((recipe) => recipe._id !== selectedRecipeId)
+        );
+
+        const likeItem = JSON.parse(localStorage.getItem("likes")) || [];
         if (Array.isArray(likeItem)) {
-          const updatedLikes = likeItem.filter((item) => item !== id);
+          const updatedLikes = likeItem.filter((item) => item !== selectedRecipeId);
           localStorage.setItem("likes", JSON.stringify(updatedLikes));
         }
       } else {
@@ -49,7 +58,21 @@ const MyRecipes = () => {
       }
     } catch (error) {
       toast.error("Something went wrong while deleting");
+    } finally {
+      closeDialog();
     }
+  };
+
+  const openDialog = (id, title) => {
+    setSelectedRecipeId(id);
+    setSelectedRecipeTitle(title);
+    setDialogVisibility(true);
+  };
+
+  const closeDialog = () => {
+    setDialogVisibility(false);
+    setSelectedRecipeId(null);
+    setSelectedRecipeTitle("");
   };
 
   useEffect(() => {
@@ -61,11 +84,11 @@ const MyRecipes = () => {
     .filter((recipe) =>
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .sort((a, b) => {
-      return sortBy === "asc"
+    .sort((a, b) =>
+      sortBy === "asc"
         ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
-    });
+        : b.title.localeCompare(a.title)
+    );
 
   const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
   const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
@@ -75,6 +98,7 @@ const MyRecipes = () => {
   );
 
   return (
+    <>
     <div className="container mt-5">
       <h2>My Recipes</h2>
       <p>This is where your saved recipes will appear.</p>
@@ -103,7 +127,6 @@ const MyRecipes = () => {
       </div>
 
       {/* Recipe List */}
-
       {currentRecipes.length === 0 ? (
         <p className="text-muted">No matching recipes found.</p>
       ) : (
@@ -112,7 +135,7 @@ const MyRecipes = () => {
             <MyRecipeItems
               key={item._id}
               item={item}
-              deleteRecipe={deleteRecipe}
+              deleteRecipe={() => openDialog(item._id, item.title)}
             />
           ))}
         </div>
@@ -134,7 +157,28 @@ const MyRecipes = () => {
           ))}
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={dialogVisibility} onHide={closeDialog} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete the recipe: <strong>{selectedRecipeTitle}</strong>?
+        </Modal.Body>
+        <Modal.Footer className="w-100 d-flex justify-content-between">
+          <Button variant="danger" onClick={handleDelete}>
+            Yes, Delete
+          </Button>
+          <Button variant="secondary" onClick={closeDialog}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
+    <Footer/>
+    </>
   );
 };
 

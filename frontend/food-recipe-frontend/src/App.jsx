@@ -14,7 +14,6 @@ const LoginPage = lazy(() => import("./components/LoginPage"));
 const SignupPage = lazy(() => import("./components/SignupPage"));
 const AboutUs = lazy(() => import("./components/AboutUs"));
 const ContactUs = lazy(() => import("./components/ContactUs"));
-const DashBoard = lazy(() => import("./components/DashBoard"));
 const EditFoodRecipe = lazy(() => import("./components/editRecipeForm"));
 const NotFound = lazy(() => import("./components/NotFound"));
 const MyRecipes = lazy(() => import("./components/MyRecipes"));
@@ -41,7 +40,6 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/favourite" element={<Favourite />} />
-          <Route path="/dashboard" element={<DashBoard />} />
           <Route element={<PrivateRoute />}>
             <Route path="/editRecipe/:id" element={<EditFoodRecipe />} />
             <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
