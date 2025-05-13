@@ -20,7 +20,7 @@ const RecipeItems = () => {
   };
 
   useEffect(() => {
-    getAllRecipes();
+    getAllRecipes(); //imperative function to fetch all recipes
   }, []);
 
   return (
