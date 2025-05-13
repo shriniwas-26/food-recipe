@@ -32,7 +32,6 @@ export async function deleteRecipeFromApi(id){
   try {
     return await axios.delete(url + "/recipe/"+id,{
       headers: {
-        'Content-Type' : 'multipart/form-data',
         'Authorization': "Bearer "+localStorage.getItem("token")
       }
     });

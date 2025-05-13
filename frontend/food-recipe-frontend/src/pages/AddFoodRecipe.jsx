@@ -47,7 +47,7 @@ const AddFoodRecipe = () => {
           ingredients: "",
           instructions: "",
           time: "",
-          coverImage: null,
+          coverImage: "",
         });
       } else {
         toast.error("Something went wrong");

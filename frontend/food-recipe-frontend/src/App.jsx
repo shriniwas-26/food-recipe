@@ -40,9 +40,9 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/favourite" element={<Favourite />} />
+          <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
           <Route element={<PrivateRoute />}>
             <Route path="/editRecipe/:id" element={<EditFoodRecipe />} />
-            <Route path="/recipeDetails/:id" element={<RecipeInfo />} />
             <Route path="/myrecipes" element={<MyRecipes />} />
             <Route path="/addRecipe" element={<AddFoodRecipe />} />
             <Route path="*" element={<NotFound />} />
