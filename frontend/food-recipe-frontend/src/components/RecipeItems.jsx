@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import RecipeItem from "./recipeItem.jsx";
 
 const RecipeItems = () => {
-  const [allRecipes, setAllRecipes] = useState([]);
+  const [allRecipes, setAllRecipes] = useState([]); //useState is a React Hook that lets you add state to functional components.
 
   const getAllRecipes = async () => {
     try {
