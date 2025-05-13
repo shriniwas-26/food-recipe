@@ -3,8 +3,8 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import './NavigationBar.css';
-import logo1 from "../Images/Logo1.png";
-import { removeToken } from '../services/userService';
+import logo1 from "../../assets/images/Logo1.png";
+import { removeToken } from '../../services/userService';
 
 export function NavigationBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

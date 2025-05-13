@@ -1,11 +1,11 @@
 import React from "react";
 import { RiTimerFill } from "react-icons/ri";
 import { FaEdit, FaTrash } from "react-icons/fa"; //  New icons
-import "./recipeItems.css";
-import food from "../assets/food.png";
+import "../RecipeItems/recipeItems.css";
+
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { toast } from "react-toastify";
+
 
 const MyRecipeItems = ({ item, deleteRecipe }) => {
 

@@ -1,4 +1,4 @@
-import "../components/recipeItems.css";
+import "./RecipeItems/recipeItems.css";
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Card } from 'react-bootstrap';
 import { addFeedback } from "../services/userService";

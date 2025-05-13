@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllRecipesFromApi } from "../services/recipeService.js";
-import food from '../assets/food.png';
-import { RiTimerFill } from "react-icons/ri";
-import { FaHeart } from "react-icons/fa";
+import { getAllRecipesFromApi } from "../../services/recipeService.js";
 import './recipeItems.css';
-import { Link } from "react-router-dom";
 import RecipeItem from "./recipeItem.jsx";
 
 const RecipeItems = () => {
