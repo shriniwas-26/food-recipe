@@ -2,27 +2,32 @@ import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Footer from "../components/Footer";
 
+import team1 from '../assets/images/team1.jpg';
+import team2 from '../assets/images/team2.jpg';
+import team3 from '../assets/images/team3.png';
+
+
 const teamMembers = [
   {
     name: 'Satyajeet Khamkar',
     email: 'khamkarsatyajeet190401@gmail.com',
     phone: '7378750403',
     address: 'Kolhapur, Maharashtra',
-    image: '/images/team1.jpg',
+    image: team1,
   },
   {
     name: 'Shriniwas Pawar',
     email: 'pawar.shriniwas26@gmail.com',
     phone: '7020172470',
     address: 'Nanded, Maharashtra',
-    image: '/images/team2.jpg',
+    image: team2,
   },
   {
     name: 'Saiteja Gampa',
     email: 'saitejagampa8@gmail.com',
     phone: '7658990750',
     address: 'Rajanna Sircilla, Telangana',
-    image: '/images/team3.png',
+    image: team3,
   },
 ];
 

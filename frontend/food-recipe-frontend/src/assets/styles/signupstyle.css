@@ -29,7 +29,7 @@
 
 
 .bg-image {
-  background-image: url('../styles/bg_image.jpg');
+  background-image: url('../images//bg_image.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

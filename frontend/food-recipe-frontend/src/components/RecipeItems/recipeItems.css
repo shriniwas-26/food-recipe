@@ -1,0 +1,146 @@
+/* Maintain original green theme and apply hover effects */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Keep image tidy */
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Heart icon effect */
+.card-body .fa-heart:hover {
+  color: red;
+  transition: color 0.3s ease;
+}
+
+.bg-light-green{
+    background-color: #C5E1A5;
+}
+
+.share-btn {
+  border: none;
+  background-color: #C5E1A5;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.share-btn:hover {
+  transform: scale(1.05);
+  background-color: #aed581;
+  color: #db1414;
+  cursor: pointer;
+}
+.b-none{
+    border: none;
+    border-color: #C5E1A5;
+    outline: none;
+}
+
+/* Scrolling Message Styling */
+.scrolling-message {
+  background-color: #f0f0f0;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 15px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-family: 'Poppins', sans-serif;
+}
+
+.scrolling-message p {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2F4F4F;
+  padding-left: 100%;
+  animation: scroll-left 18s linear infinite;
+  letter-spacing: 0.5px;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Footer Styling */
+.footer {
+  background-color: #C5E1A5; /* Light Green */
+  color: black;
+  padding: 15px 0;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 40px;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* below code is for "Submit Recipe" button which is on "Add your recipe" form  */
+.share-btn1 {
+  border: none;
+  background-color: #C5E1A5;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.share-btn1:hover {
+  transform: scale(1.05);
+  background-color: #aed581;
+  color: #db1414;
+  cursor: pointer;
+}
+
+/* to make share recipe button at centre which in add your recipe page */
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* optional spacing */
+}
+
+
+/* below program is for background image as a wallpaper but didn't used */
+
+.page-background {
+  background-image: url('../../public/images/bg_image.jpg'); /* Adjust the path */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  min-height: 100vh;
+}
+
+/* below program is added to change color for aboutus cards  */
+
+/* Card hover effect for About Us */
+.about-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.about-card:hover {
+  background-color: #C5E1A5; /* Match navbar green */
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
