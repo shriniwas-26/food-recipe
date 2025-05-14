@@ -1,8 +1,8 @@
 import React from "react";
-import food from '../assets/food.png';
+import food from '../assets/images/food.png';
 import { Container, Row, Col } from "react-bootstrap";
-import RecipeItems from "./RecipeItems";
-import './recipeItems.css';
+import RecipeItems from "./RecipeItems/RecipeItems";
+import '../components/RecipeItems/recipeItems.css';
 import { useNavigate } from "react-router-dom";
 
 
@@ -47,7 +47,7 @@ const Home = () => {
 
       {/* Optional Footer */}
       <div className="footer">
-        <p>&copy; 2025 Foodies. All rights reserved.</p>
+        <p>&copy; 2025 TastyBite. All rights reserved.</p>
       </div>
     </div>
   );

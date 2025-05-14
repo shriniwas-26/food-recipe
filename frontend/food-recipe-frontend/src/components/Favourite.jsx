@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RecipeItem from "./recipeItem";
+import RecipeItem from "./RecipeItems/recipeItem";
 import { getRecipeFromApi } from "../services/recipeService";
 import Footer from "./Footer";
 
