@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   getAllRecipesFromApi,
   deleteRecipeFromApi,
-} from "../services/recipeService";
+} from "../../services/recipeService";
 import MyRecipeItems from "./myRecipeItems";
 import { toast } from "react-toastify";
-import Footer from "../components/Footer";
+import Footer from "../Footer";
 import { Modal, Button } from "react-bootstrap";
 
-const RECIPES_PER_PAGE = 5;
+const RECIPES_PER_PAGE = 8;
 
 const MyRecipes = () => {
   const [myRecipes, setMyRecipes] = useState([]);

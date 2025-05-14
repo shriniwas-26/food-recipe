@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "../components/recipeItems.css";
+import "../components/RecipeItems/recipeItems.css";
 import axios from "axios";
 import { url } from "../services/recipeService";
 import { toast } from "react-toastify";
